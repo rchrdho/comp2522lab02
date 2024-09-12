@@ -1,3 +1,3 @@
-public class Elf extends Creature
-{
-}
+//public class Elf extends Creature
+//{
+//}

@@ -1,11 +1,19 @@
 public class Creature
 {
     private static final int CREATURE_MAX_HP = 100;
-    private static final int CREATURE_MIN_HP     = 0;
+    private static final int CREATURE_MIN_HP = 0;
+
+    private static final int MIN_HEAL_AMOUNT = 0;
+    private static final int MIN_HEALTH_AMOUNT = 0;
+    private static final int MIN_DAMAGE_AMOUNT = 0;
+
+    private static final int CREATURE_ATTACK_DAMAGE = 5;
+    private static final String CREATURE_ATTACK_NAME = "Attack";
 
     private final String name;
     private final Date   dateOfBirth;
     private int          healthPoints;
+    private final String attackName;
 
     public Creature(final String name, final Date dateOfBirth)
     {
@@ -14,6 +22,8 @@ public class Creature
         this.name          = name;
         this.dateOfBirth   = dateOfBirth;
         this.healthPoints  = CREATURE_MAX_HP;
+        this.attackName    = CREATURE_ATTACK_NAME;
+
     }
 
     private static void validateName(final String name)
@@ -24,21 +34,28 @@ public class Creature
         }
     }
 
-    private boolean isAlive()
+    public void attack(final Creature targetCreature)
     {
-        return (this.healthPoints <= CREATURE_MIN_HP);
+        targetCreature.healthPoints -= CREATURE_ATTACK_DAMAGE;
+
+        System.out.printf("%s attacks %s with %s", this.name, targetCreature.name, this.getAttackName());
+    }
+
+    public String getAttackName()
+    {
+        return this.attackName;
     }
 
     private void takeDamage(final int damage)
     {
         this.healthPoints -= damage;
 
-        if(this.healthPoints < 0)
+        if(this.healthPoints < MIN_HEALTH_AMOUNT)
         {
-            this.healthPoints = 0;
+            this.healthPoints = MIN_HEALTH_AMOUNT;
         }
 
-        if(damage < 0)
+        if(damage < MIN_DAMAGE_AMOUNT)
         {
             throw new DamageException("Damage cannot be negative");
         }
@@ -47,17 +64,27 @@ public class Creature
 
     private void heal(final int healAmount)
     {
+        validateHealAmount(healAmount);
+
         this.healthPoints += healAmount;
 
         if(this.healthPoints > CREATURE_MAX_HP)
         {
             this.healthPoints = CREATURE_MAX_HP;
         }
+    }
 
-        if(healAmount < 0)
+    private void validateHealAmount(final int healAmount)
+    {
+        if(healAmount < MIN_HEAL_AMOUNT)
         {
             throw new HealingException("Heal amount must be positive");
         }
+    }
+
+    private boolean isAlive()
+    {
+        return (this.healthPoints <= CREATURE_MIN_HP);
     }
 
     public int getAgeYears()
@@ -77,6 +104,16 @@ public class Creature
         sb.append(" Years: ");
         sb.append(this.getAgeYears());
         System.out.println(sb);
+    }
+
+    protected void setHealthPoints(final int newHealthPoints)
+    {
+        this.healthPoints = newHealthPoints;
+    }
+
+    public String toString()
+    {
+        return this.name;
     }
 
 }

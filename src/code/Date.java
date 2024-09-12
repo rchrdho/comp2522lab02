@@ -3,8 +3,8 @@
  * The Date class represents a specific calendar date, including day, month, and year, with validation and leap year handling.
  *
  * This class provides utility methods for:
- * - Validating the day, month, and year for a Date object based on a range of valid dates (1800 to the current year).
- * - Handling leap years in February.
+ * - Validating the day, month, and year for a Date object based on a range of valid dates (VALID_YEAR_MIN to CURRENT_YEAR).
+ * - Handling leap years in FEBRUARY.
  * - Calculating the day of the week for any valid date.
  * - Converting numeric representations of months into their string equivalents.
  *
@@ -48,8 +48,8 @@ public class Date
     private static final int MONTH_MAX                      = 12;
     private static final int MONTH_DAYS_31                  = 31;
     private static final int MONTH_DAYS_30                  = 30;
-    private static final int MONTH_DAYS_29                  = 29;
-    private static final int MONTH_DAYS_28                  = 28;
+    private static final int FEBRUARY_LONG                  = 29;
+    private static final int FEBRUARY_SHORT                 = 28;
 
     private static final int MONTH_CODE_0                   = 0;
     private static final int MONTH_CODE_1                   = 1;
@@ -65,9 +65,9 @@ public class Date
     private static final int WEEK_CODE_1800S_ADJUSTOR       = 2;
     private static final int WEEK_CODE_2000S_ADJUSTOR       = 6;
 
-    private static final int DIVISIBLE_BY_FOUR_LEAP_YEAR    = 4;
-    private static final int DIVISIBLE_BY_100_LEAP_YEAR     = 100;
-    private static final int DIVISIBLE_BY_400_LEAP_YEAR     = 400;
+    private static final int YEARS_BETWEEN_LEAP_YEAR        = 4;
+    private static final int YEARS_BETWEEN_CENTURY_LEAP     = 100;
+    private static final int YEARS_BETWEEN_QUAD_CENTURY_LEAP= 400;
 
     private static final int MIN_YEAR_1800S                 = 1800;
     private static final int MAX_YEAR_1800S                 = 1899;
@@ -89,18 +89,18 @@ public class Date
     /**
      * <pre>Constructs a Date object with a year, month and day.
      *
-     * Validates each parameter by validaint the year, month and day
-     * Checks if the year is between 1800 - current year (validateYear)
-     * Checks if the month is between 1 - 12 (validateMonth)
+     * Validates each parameter by validating the year, month, and day
+     * Checks if the year is between VALID_YEAR_MIN and CURRENT_YEAR (validateYear)
+     * Checks if the month is between MONTH_MIN and MONTH_MAX (validateMonth)
      * Checks if the day is valid for the given month/year by using a
-     * switch. Certain months always have 31 days, certain months always have
-     * 30 days. February returns 29 or 28 depending on the outcome of isLeapYear
+     * switch. Certain months always have MONTH_DAYS_31 days, certain months always have
+     * MONTH_DAYS_30 days. February returns MONTH_DAYS_29 or MONTH_DAYS_28 depending on the outcome of isLeapYear
      * (validateDay)</pre>
      *
      *
-     * @param year int between 1800 and CURRENT_YEAR
-     * @param month int 1-12 representing Jan - Dec
-     * @param day int 1-31
+     * @param year int between VALID_YEAR_MIN and CURRENT_YEAR
+     * @param month int between MONTH_MIN and MONTH_MAX representing Jan - Dec
+     * @param day int between DAY_MIN and MONTH_DAYS_31
      */
     public Date(final int year,
                 final int month,
@@ -117,7 +117,7 @@ public class Date
 
     /**
      * Returns a copy of year instance field.
-     * @return int year 1800 - 2024
+     * @return int year between VALID_YEAR_MIN and CURRENT_YEAR
      */
     public int getYear()
     {
@@ -126,7 +126,7 @@ public class Date
 
     /**
      * Returns a copy of the month instance field.
-     * @return int month 1-12
+     * @return int month between MONTH_MIN and MONTH_MAX
      */
     public int getMonth()
     {
@@ -135,7 +135,7 @@ public class Date
 
     /**
      * Returns a copy of the day instance field.
-     * @return int day 1-31
+     * @return int day between DAY_MIN and MONTH_DAYS_31
      */
     public int getDay()
     {
@@ -143,29 +143,29 @@ public class Date
     }
 
     /*
-    If the passed year is less than the minimum year of greater than the current year, throw an exception.
+    If the passed year is less than VALID_YEAR_MIN or greater than CURRENT_YEAR, throw an exception.
      */
     private static void validateYear(final int year) throws IllegalArgumentException
     {
         if (year < VALID_YEAR_MIN || year > CURRENT_YEAR)
         {
-            throw new IllegalArgumentException("Year: " + year + " must be between 1- 2024");
+            throw new IllegalArgumentException("Year: " + year + " must be between " + VALID_YEAR_MIN + " and " + CURRENT_YEAR);
         }
     }
 
     /*
-    If the passed month is less than the minimum month number or greater than the max month number, throw an exception.
+    If the passed month is less than MONTH_MIN or greater than MONTH_MAX, throw an exception.
      */
     private static void validateMonth(final int month) throws IllegalArgumentException
     {
         if (month < MONTH_MIN || month > MONTH_MAX)
         {
-            throw new IllegalArgumentException("Month: " + month + " must be between 1- 12");
+            throw new IllegalArgumentException("Month: " + month + " must be between " + MONTH_MIN + " and " + MONTH_MAX);
         }
     }
 
     /*
-    If the passed day is less than the minimum day number or not appropriate for the given month, throw an exception.
+    If the passed day is less than DAY_MIN or not appropriate for the given month, throw an exception.
      */
     private static void validateDay(final int day,
                                     final int month,
@@ -203,11 +203,11 @@ public class Date
             case FEBRUARY:
                 if (isLeapYear(year))
                 {
-                    return MONTH_DAYS_29;
+                    return FEBRUARY_LONG;
                 }
                 else
                 {
-                    return MONTH_DAYS_28;
+                    return FEBRUARY_SHORT;
                 }
             default:
                 throw new IllegalArgumentException("Invalid month: " + month);
@@ -221,9 +221,9 @@ public class Date
      *
      * <p>weekCode is incremented according to three checks prior to the algorithm:</p>
      * <ul>
-     *   <li>If the year of the Date is a leap year AND falls in Feb OR Jan, add 6</li>
-     *   <li>If the year falls in the 1800s, add 2</li>
-     *   <li>If the year falls in the 2000s, add 6</li>
+     *   <li>If the year of the Date is a leap year AND falls in FEBRUARY OR JANUARY, add WEEK_CODE_LEAP_YEAR_ADJUSTOR</li>
+     *   <li>If the year falls in the 1800s, add WEEK_CODE_1800S_ADJUSTOR</li>
+     *   <li>If the year falls in the 2000s, add WEEK_CODE_2000S_ADJUSTOR</li>
      * </ul>
      *
      * <p>Each step of the following algorithm produces a number that is added to weekCode:</p>
@@ -233,42 +233,42 @@ public class Date
      *
      * 1. Calculate the number of twelves in the last two digits of the year.
      *      year == 1977
-     *      (1977 % 100) = 77
-     *      77 / 12 = 6                                     weekCode += 6
+     *      (1977 % EXTRACT_YEAR_DIGITS) = 77
+     *      77 / MONTHS_IN_YEAR = 6                                     weekCode += 6
      *
      * 2. Calculate the remainder from step one.
-     *      77 / 12 = 6
-     *      6 * 12 = 72
+     *      77 / MONTHS_IN_YEAR = 6
+     *      6 * MONTHS_IN_YEAR = 72
      *      77 - 72 = 5                                     weekCode += 5
      *
      * 3. Calculate the number of fours in step two.
-     *      5 / 4 = 1                                       weekCode += 1
+     *      5 / FOURS_IN_REMAINDER = 1                                       weekCode += 1
      *
      * 4. Add the day of the month to weekCode.
      *      day == 31                                       weekCode += 31
      *
      * 5. Add the month code to weekCode according to the following table:
      *      Month        [ J F M A M J J A S O N D ]
-     *      Month Code   [ 1 4 4 0 2 5 0 3 6 1 4 6 ]
-     *      October = O = 1                                 weekCode += 1
+     *      Month Code   [ MONTH_CODE_1 MONTH_CODE_4 MONTH_CODE_4 MONTH_CODE_0 MONTH_CODE_2 ... ]
+     *      October = O = MONTH_CODE_1                                 weekCode += MONTH_CODE_1
      *
      * 6. Final calculation:
      *      weekCode = 44
-     *      weekCode % 7 = 2                                weekCode %= 7
+     *      weekCode % DAYS_IN_WEEK = 2                                weekCode %= DAYS_IN_WEEK
      *
      * Result:
-     *      weekCode == 2
+     *      weekCode == MONDAY
      * </pre>
      *
-     * <p>These six steps result in an int between 0-6.
+     * <p>These six steps result in an int between SATURDAY and FRIDAY.
      * Each digit corresponds to a day of the week according to the following table:</p>
      *
      * <pre>
-     * Day of the Week [ S  S  M  T  W  T  F ]
-     * Week Code       [ 0  1  2  3  4  5  6 ]
+     * Day of the Week [ SATURDAY  SUNDAY  MONDAY  TUESDAY  WEDNESDAY  THURSDAY  FRIDAY ]
+     * Week Code       [ SATURDAY  SUNDAY  MONDAY  TUESDAY  WEDNESDAY  THURSDAY  FRIDAY ]
      * </pre>
      *
-     * <p>Since the final weekCode == 2, October 31, 1977 was a Monday.</p>
+     * <p>Since the final weekCode == MONDAY, October 31, 1977 was a Monday.</p>
      *
      * @return String of the day of the week for the Date object
      */
@@ -301,7 +301,7 @@ public class Date
 
     /*
     Prepares the weekCode for getWeekCode() by adjusting the number according to some checks.
-    If the year is a leap year AND the month is january or february, adjust accordingly.
+    If the year is a leap year AND the month is JANUARY or FEBRUARY, adjust accordingly.
     If the year is in the 1800s, adjust accordingly.
     If the year is in the 2000s, adjust accordingly.
      */
@@ -333,18 +333,19 @@ public class Date
     }
 
     /*
-    A leap year needs to be divisible by 4, but not divisible by 100 unless it's also divisible by 400.
+    A leap year needs to be divisible by DIVISIBLE_BY_FOUR_LEAP_YEAR, but not divisible by DIVISIBLE_BY_100_LEAP_YEAR
+    unless it's also divisible by DIVISIBLE_BY_400_LEAP_YEAR.
      */
     private static boolean isLeapYear(final int year)
     {
-        return (year % DIVISIBLE_BY_FOUR_LEAP_YEAR == 0 && year % DIVISIBLE_BY_100_LEAP_YEAR != 0)
-                || (year % DIVISIBLE_BY_400_LEAP_YEAR == 0);
+        return (year % YEARS_BETWEEN_LEAP_YEAR == 0 && year % YEARS_BETWEEN_CENTURY_LEAP != 0)
+                || (year % YEARS_BETWEEN_QUAD_CENTURY_LEAP == 0);
     }
 
     /*
     Returns the appropriate month code according to
         Letter of Month [ J F M A M J J A S O N D ]
-        Month Code      [ 1 4 4 0 2 5 0 3 6 1 4 6 ]
+        Month Code      [ MONTH_CODE_1 MONTH_CODE_4 MONTH_CODE_4 MONTH_CODE_0 ... ]
      */
     private int getMonthCode()
     {
