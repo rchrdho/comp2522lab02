@@ -36,9 +36,9 @@ public class Creature
 
     public void attack(final Creature targetCreature)
     {
-        targetCreature.healthPoints -= CREATURE_ATTACK_DAMAGE;
+        targetCreature.takeDamage(CREATURE_ATTACK_DAMAGE);
 
-        System.out.printf("%s attacks %s with %s", this.name, targetCreature.name, this.getAttackName());
+        System.out.printf("%s attacks %s with %s\n", this.name, targetCreature.name, this.getAttackName());
     }
 
     public String getAttackName()
@@ -106,14 +106,15 @@ public class Creature
         System.out.println(sb);
     }
 
-    protected void setHealthPoints(final int newHealthPoints)
+    protected void setHealthPoints(final int healthChange)
     {
-        this.healthPoints = newHealthPoints;
+        this.healthPoints += healthChange;
     }
 
     public String toString()
     {
         return this.name;
     }
+
 
 }
