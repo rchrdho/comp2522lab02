@@ -1,12 +1,12 @@
 public class Dragon extends Creature {
-    private static final int MAX_FIRE_POWER = 100;
-    private static final int MIN_FIRE_POWER = 0;
-    private static final int DRAGON_MAX_HP = 500;
-    private static final int DRAGON_MIN_HP = 0;
-    private static final int FIRE_POWER_COST = 10;
-    private static final int DRAGON_ATTACK_DAMAGE = 20;
-    private static final String DRAGON_ATTACK_NAME = "Breath Fire";
-    private static final int FIRE_POWER_RESTORE_AMOUNT = 20;
+    private static final int    MAX_FIRE_POWER              = 100;
+    private static final int    MIN_FIRE_POWER              = 0;
+    private static final int    DRAGON_MAX_HP               = 500;
+    private static final int    DRAGON_MIN_HP               = 0;
+    private static final int    FIRE_POWER_COST             = 10;
+    private static final int    DRAGON_ATTACK_DAMAGE        = 20;
+    private static final int    FIRE_POWER_RESTORE_AMOUNT   = 20;
+    private static final String DRAGON_ATTACK_NAME          = "Breath Fire";
 
     private int firePower;
 
@@ -20,7 +20,7 @@ public class Dragon extends Creature {
      */
     public Dragon(final String  dragonName,
                   final Date    dragonBirthDate,
-                  final int dragonHP,
+                  final int     dragonHP,
                   final int     firePower)
     {
 
@@ -59,7 +59,8 @@ public class Dragon extends Creature {
 
     /*
      */
-    protected void breathFire(final Creature target) throws LowFirePowerException
+    protected void breathFire(final Creature target)
+            throws LowFirePowerException
     {
         validateBreathFire(this.firePower);
 
@@ -72,7 +73,8 @@ public class Dragon extends Creature {
     Validate breathFire
     Checks if current firePower is less than FIRE_POWER_COST
      */
-    private static void validateBreathFire(int firePower) throws LowFirePowerException
+    private static void validateBreathFire(int firePower)
+            throws LowFirePowerException
     {
         if(firePower < FIRE_POWER_COST)
         {
