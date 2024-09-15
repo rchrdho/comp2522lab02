@@ -1,4 +1,6 @@
-public class Dragon extends Creature {
+public class Dragon extends Creature
+{
+
     private static final int    MAX_FIRE_POWER              = 100;
     private static final int    MIN_FIRE_POWER              = 0;
     private static final int    DRAGON_MAX_HP               = 500;
@@ -9,6 +11,7 @@ public class Dragon extends Creature {
     private static final String DRAGON_ATTACK_NAME          = "Breath Fire";
 
     private int firePower;
+    private int dragonHP;
 
     /**
      *
@@ -28,12 +31,13 @@ public class Dragon extends Creature {
 
         firePowerInRange(firePower);
         this.firePower = firePower;
-        this.setHealthPoints(DRAGON_MAX_HP);
+        this.dragonHP = dragonHP;
+
     }
 
     /*
      <pre>
-     Validates firePower
+     Validator for firePower
      throws IllegalArgumentException if firePower is not within
      MIN_FIRE_POWER or MAX_FIRE_POWER
      <pre>
@@ -52,6 +56,7 @@ public class Dragon extends Creature {
     @Override
     public void getDetails()
     {
+
         super.getDetails();
 
         System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
@@ -66,7 +71,6 @@ public class Dragon extends Creature {
 
         this.firePower -= FIRE_POWER_COST;
         attack(target);
-        System.out.printf("with %s for %d damage\n", DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
         System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
@@ -95,18 +99,18 @@ public class Dragon extends Creature {
     public void attack(final Creature target)
     {
         super.attack(target);
-        target.setHealthPoints(-DRAGON_ATTACK_DAMAGE);
+        setHealthPoints(-DRAGON_ATTACK_DAMAGE);
     }
 
     protected void restoreFirePower()
     {
         this.firePower += FIRE_POWER_RESTORE_AMOUNT;
         validateRestoreFirePower();
-        System.out.printf("%s used restore Fire Power: %d/%d\n", this.getName(), firePower, MAX_FIRE_POWER);
+        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
     /*
-    Validates restoreFirePower, if its over MAX_FIRE_POWER set it to MAX_FIRE_POWER
+    Validates rstoreFirePower, if its over MAX_FIRE_POWER set it to MAX_FIRE_POWER
      */
     private void validateRestoreFirePower()
     {
@@ -116,9 +120,9 @@ public class Dragon extends Creature {
         }
     }
 
-
     private void setMaxFirePower(int maxFirePower)
     {
         this.firePower = maxFirePower;
     }
+
 }

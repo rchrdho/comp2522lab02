@@ -100,9 +100,9 @@ public class Creature
         System.out.println(sb);
     }
 
-    protected void setHealthPoints(final int healthChange)
+    protected void setHealthPoints(final int healthAmount)
     {
-        this.healthPoints += healthChange;
+        this.healthPoints = healthAmount;
     }
 
     public String toString()
