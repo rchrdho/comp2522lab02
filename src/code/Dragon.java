@@ -1,5 +1,5 @@
-public class Dragon extends Creature {
-
+public class Dragon extends Creature
+{
     // Symbolic Constants
     private static final int    MAX_FIRE_POWER              = 100;
     private static final int    MIN_FIRE_POWER              = 0;
@@ -13,16 +13,15 @@ public class Dragon extends Creature {
     private int firePower;
 
     /**
-     * Constructs a Dragon Object.
+     * Constructs a Dragon creature.
      *
-     * @param dragonName
-     * @param dragonBirthDate
-     * @param dragonHP
-     * @param firePower
+     * @param dragonName                Name of the Dragon.
+     * @param dragonBirthDate           The birthdate of the Dragon.
+     * @param firePower                 The Dragon's starting firePower, must be within the range.
+     * @throws IllegalArgumentException If the firePower is out of range.
      */
     public Dragon(final String  dragonName,
                   final Date    dragonBirthDate,
-                  final int     dragonHP,
                   final int     firePower)
     {
 
@@ -33,12 +32,11 @@ public class Dragon extends Creature {
         this.setHealthPoints(DRAGON_MAX_HP);
     }
 
-    /*
-     <pre>
-     Validator for firePower
-     throws IllegalArgumentException if firePower is not within
-     MIN_FIRE_POWER or MAX_FIRE_POWER
-     <pre>
+    /**
+     * Ensures that the Dragon's firePower is above MIN_FIRE_POWER and below MAX_FIRE_POWER.
+     *
+     * @param firePower                 The current firePower of the Dragon.
+     * @throws IllegalArgumentException if firePower is out of range.
      */
     private void firePowerInRange(final int firePower)
     {
@@ -49,7 +47,7 @@ public class Dragon extends Creature {
     }
 
     /**
-     *
+     * Overrides the Creature class' getDetails method to include the Dragon's firePower.
      */
     @Override
     public void getDetails()
@@ -59,24 +57,33 @@ public class Dragon extends Creature {
         System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
-    /*
+    /**
+     * Breathes fire on the target creature, dealing damage and reducing the caster's firePower.
+     *
+     * @param targetCreature         The target creature to attack.
+     * @throws LowFirePowerException If the Dragon's firePower is too low to attack.
      */
-    protected void breathFire(final Creature targetCreature)
+    protected final void breathFire(final Creature targetCreature)
             throws LowFirePowerException
     {
 
         validateBreathFire(this.firePower);
+
         targetCreature.takeDamage(DRAGON_ATTACK_DAMAGE);
+
         System.out.printf("%s attacks %s with %s for %d damage\n", this.getName(), targetCreature.getName(),
                           DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
 
+        // Reduce firePower by FIRE_POWER_COST after breathFire
         this.firePower -= FIRE_POWER_COST;
         System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
-    /*
-    Validate breathFire
-    Checks if current firePower is less than FIRE_POWER_COST
+    /**
+     * Validates the Dragon's firePower before attempting to breathe fire.
+     *
+     * @param firePower                 The current firePower of the Dragon.
+     * @throws LowFirePowerException    if the firePower is below the required threshold for breathing fire.
      */
     private static void validateBreathFire(int firePower)
             throws LowFirePowerException
@@ -89,15 +96,22 @@ public class Dragon extends Creature {
         }
     }
 
-    protected void restoreFirePower()
+    /**
+     * Restores the Dragon's firePower by a fixed amount.
+     * Validates that the firePower does not exceed the maximum allowed value.
+     * Made final it cannot be modified.
+     */
+    protected final void restoreFirePower()
     {
         this.firePower += FIRE_POWER_RESTORE_AMOUNT;
+
         validateRestoreFirePower();
+
         System.out.printf("%s used restore Fire Power: %d/%d\n", this.getName(), firePower, MAX_FIRE_POWER);
     }
 
-    /*
-    Validates restoreFirePower, if its over MAX_FIRE_POWER set it to MAX_FIRE_POWER
+    /**
+     *  Validates restoreFirePower, if its over MAX_FIRE_POWER set it to MAX_FIRE_POWER.
      */
     private void validateRestoreFirePower()
     {
