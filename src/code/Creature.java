@@ -106,6 +106,4 @@ public class Creature
     {
         return this.name;
     }
-
-
 }
