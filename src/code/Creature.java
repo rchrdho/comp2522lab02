@@ -32,12 +32,13 @@ public class Creature
 
     public void attack(final Creature targetCreature)
     {
-        targetCreature.takeDamage(CREATURE_ATTACK_DAMAGE);
+        int attackDamage = CREATURE_ATTACK_DAMAGE;
+        targetCreature.takeDamage(attackDamage);
 
-        System.out.printf("%s attacks %s\n", this.name, targetCreature.name);
+        System.out.printf("%s attacks %s for %d damage\n", this.name, targetCreature.name, attackDamage);
     }
 
-    private void takeDamage(final int damage)
+    protected void takeDamage(final int damage)
     {
         this.healthPoints -= damage;
 
@@ -78,9 +79,19 @@ public class Creature
         return (this.healthPoints <= CREATURE_MIN_HP);
     }
 
+    public String getName()
+    {
+        return this.name;
+    }
+
     public int getAgeYears()
     {
         return this.dateOfBirth.getYear() - this.dateOfBirth.getMonth();
+    }
+
+    public int getHealthpoints()
+    {
+        return this.healthPoints;
     }
 
     public void getDetails()
