@@ -102,17 +102,6 @@ public class Dragon extends Creature
         setHealthPoints(-DRAGON_ATTACK_DAMAGE);
     }
 
-    /**
-     * Override getAttackName method in Creature Class.
-     *
-     * @return
-     */
-    @Override
-    public String getAttackName()
-    {
-        return DRAGON_ATTACK_NAME;
-    }
-
     protected void restoreFirePower()
     {
         this.firePower += FIRE_POWER_RESTORE_AMOUNT;

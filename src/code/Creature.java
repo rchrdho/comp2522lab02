@@ -8,12 +8,10 @@ public class Creature
     private static final int MIN_DAMAGE_AMOUNT = 0;
 
     private static final int CREATURE_ATTACK_DAMAGE = 5;
-    private static final String CREATURE_ATTACK_NAME = "Attack";
 
     private final String name;
     private final Date   dateOfBirth;
     private int          healthPoints;
-    private final String attackName;
 
     public Creature(final String name, final Date dateOfBirth)
     {
@@ -22,8 +20,6 @@ public class Creature
         this.name          = name;
         this.dateOfBirth   = dateOfBirth;
         this.healthPoints  = CREATURE_MAX_HP;
-        this.attackName    = CREATURE_ATTACK_NAME;
-
     }
 
     private static void validateName(final String name)
@@ -38,12 +34,7 @@ public class Creature
     {
         targetCreature.takeDamage(CREATURE_ATTACK_DAMAGE);
 
-        System.out.printf("%s attacks %s with %s\n", this.name, targetCreature.name, this.getAttackName());
-    }
-
-    public String getAttackName()
-    {
-        return this.attackName;
+        System.out.printf("%s attacks %s\n", this.name, targetCreature.name);
     }
 
     private void takeDamage(final int damage)
