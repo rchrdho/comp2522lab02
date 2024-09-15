@@ -7,7 +7,6 @@
  */
 public class Elf extends Creature
 {
-    // TODO: To revisit comments
     private static final int ELF_MIN_MANA            = 0;
     private static final int ELF_MAX_MANA            = 50;
 
@@ -17,6 +16,8 @@ public class Elf extends Creature
     private static final int ELF_ATTACK_DAMAGE       = 10;
     private static final int ELF_LOWEST_MANA_USAGE   = 5;
     private static final int ELF_MANA_RESTORE_AMOUNT = 5;
+
+    private static final String ELF_ATTACK_NAME      = "spell";
 
     private int mana;
 
@@ -39,6 +40,12 @@ public class Elf extends Creature
         this.setHealthPoints(ELF_MAX_HP);
     }
 
+    /**
+     * Validates mana; checks whether it is lower than ELF_MIN_MANA or higher than ELF_MAX_MANA.
+     * Throws an IllegalArgumentException when mana is not valid.
+     *
+     * @param mana Mana to be checked
+     */
     private static void validateMana(final int mana)
     {
         if(mana < ELF_MIN_MANA || mana > ELF_MAX_MANA)
@@ -50,21 +57,34 @@ public class Elf extends Creature
 
     /**
      * Casts a spell on the target creature, reducing the elf's mana by ELF_MANA_REDUCTION and dealing ELF_TARGET_DAMAGE
-     * damage to the target creature. Throws a LowManaException when elf's mana reaches ELF_LOWEST_MANA_USAGE
+     * damage to the target creature. Prevents elf from casting spell when it's mana is lower
+     * than ELF_LOWEST_MANA_USAGE.
+     * Protected final is used because we don't want any subclasses of Elf to be able to change the logic of castSpell()
      *
-     * @param target Creature to receive damage
+     * @param targetCreature Creature to receive damage
      * @throws LowManaException If the elf's mana is less than ELF_LOWEST_MANA_USAGE
      */
-    public void castSpell(final Creature target)
+    protected final void castSpell(final Creature targetCreature)
             throws LowManaException
     {
         validateManaUsage(this.mana);
 
         this.mana -= ELF_MANA_COST;
 
-        target.takeDamage(ELF_ATTACK_DAMAGE);
+        targetCreature.takeDamage(ELF_ATTACK_DAMAGE);
+        System.out.printf("%s attacks %s with %s for %d damage",
+                this.getName(),
+                targetCreature.getName(),
+                ELF_ATTACK_NAME,
+                ELF_ATTACK_DAMAGE);
     }
 
+    /**
+     * Validates mana usage; checks whether it is lower than ELF_LOWEST_MANA_USAGE.
+     *
+     * @param mana Mana to be checked.
+     * @throws LowManaException If the elf's mana is less than ELF_LOWEST_MANA_USAGE
+     */
     private void validateManaUsage(final int mana)
             throws LowManaException
     {
@@ -84,12 +104,15 @@ public class Elf extends Creature
         validateRestoreMana();
     }
 
+    /**
+     * Validates restore mana, checks if the mana is higher than ELF_MAX_MANA and if it is, sets the mana to
+     * ELF_MAX_MANA
+     */
     private void validateRestoreMana()
     {
         if (this.mana > ELF_MAX_MANA)
         {
-            throw new IllegalArgumentException(String.format("Cannot restore Mana. It has reached max capacity of %d",
-                    ELF_MAX_MANA));
+            this.mana = ELF_MAX_MANA;
         }
     }
 

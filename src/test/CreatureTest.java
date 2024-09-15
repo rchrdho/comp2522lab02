@@ -1,4 +1,5 @@
-public class CreatureTest {
+public class CreatureTest
+{
 
     public static void main(final String[] args)
             throws LowFirePowerException, LowManaException, LowRageException
@@ -8,6 +9,7 @@ public class CreatureTest {
         Creature smaugg;
         Creature azogg;
         Creature legolis;
+        Creature defaultCreature;
 
         Date defaultCreatureBirthday;
         Date azogBirthday;
@@ -18,14 +20,12 @@ public class CreatureTest {
         azogBirthday = new Date(1894, 3, 4);
         azogg = new Creature("Azog", azogBirthday);
         smaugg = new Creature("Smaug", smaugBirthday);
-        creature = new Creature("Orc", defaultCreatureBirthday);
+        defaultCreature = new Creature("Smaug", defaultCreatureBirthday);
 
-        System.out.println(smaugg.getClass().getSimpleName().equals("Creature"));
-        if(smaugg instanceof Creature)
+        if(defaultCreature instanceof Creature)
         {
-            final Dragon smaug;
-            smaug = (Dragon)creature;
-            smaug.breathFire(creature);
+            Dragon smaug;
+            smaug = (Dragon)defaultCreature;
             smaug.getDetails();
         }
 
