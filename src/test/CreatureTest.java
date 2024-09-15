@@ -1,32 +1,29 @@
 public class CreatureTest
 {
-
     public static void main(final String[] args)
             throws LowFirePowerException, LowManaException, LowRageException
     {
 
-        Creature creature;
-        Creature smaugg;
-        Creature azogg;
-        Creature legolis;
         Creature defaultCreature;
-
+        Dragon smaug;
         Date defaultCreatureBirthday;
         Date azogBirthday;
         Date smaugBirthday;
 
+        smaugBirthday = new Date(1800, 2, 22);
+        smaug = new Dragon("Smaug", smaugBirthday);
         defaultCreatureBirthday = new Date(1989, 06,25);
-        smaugBirthday = new Date(1800, 1, 23);
-        azogBirthday = new Date(1894, 3, 4);
-        azogg = new Creature("Azog", azogBirthday);
-        smaugg = new Creature("Smaug", smaugBirthday);
         defaultCreature = new Creature("Smaug", defaultCreatureBirthday);
 
-        if(defaultCreature instanceof Creature)
+        System.out.println(defaultCreature.getClass().getName());
+
+        if(smaug instanceof Dragon)
         {
-            Dragon smaug;
-            smaug = (Dragon)defaultCreature;
-            smaug.getDetails();
+            Creature newCreature;
+            newCreature = (Dragon)smaug;
+            newCreature.getDetails();
+            smaug.breathFire(defaultCreature);
+
         }
 
     }

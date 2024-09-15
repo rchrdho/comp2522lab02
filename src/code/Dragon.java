@@ -15,20 +15,21 @@ public class Dragon extends Creature
     /**
      * Constructs a Dragon creature.
      *
+     * The Dragon starts with a maximum of {@value DRAGON_MAX_HP} and firePower between {@value MIN_FIRE_POWER} and
+     * {@value MAX_FIRE_POWER}
+     *
      * @param dragonName                Name of the Dragon.
      * @param dragonBirthDate           The birthdate of the Dragon.
-     * @param firePower                 The Dragon's starting firePower, must be within the range.
      * @throws IllegalArgumentException If the firePower is out of range.
      */
     public Dragon(final String  dragonName,
-                  final Date    dragonBirthDate,
-                  final int     firePower)
+                  final Date    dragonBirthDate)
     {
 
         super(dragonName, dragonBirthDate);
 
-        firePowerInRange(firePower);
-        this.firePower = firePower;
+        firePowerInRange(this.firePower);
+        setMaxFirePower();
         this.setHealthPoints(DRAGON_MAX_HP);
     }
 
@@ -119,6 +120,11 @@ public class Dragon extends Creature
         {
             this.firePower = MAX_FIRE_POWER;
         }
+    }
+
+    private void setMaxFirePower()
+    {
+        this.firePower = MAX_FIRE_POWER;
     }
 
 }
