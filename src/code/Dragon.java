@@ -71,7 +71,6 @@ public class Dragon extends Creature {
                           DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
 
         this.firePower -= FIRE_POWER_COST;
-        attack(target);
         System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
