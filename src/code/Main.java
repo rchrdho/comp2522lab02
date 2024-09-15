@@ -4,17 +4,17 @@ public class Main
         Date today = new Date(1989, 06,25);
         Creature creature = new Creature("hello", today);
         Orc Azog = new Orc("Azog", today, 25);
-        Dragon Smog = new Dragon("Smog",today,100, 100);
+        Dragon Smaug = new Dragon("Smaug",today,100, 100);
 
         creature.getDetails();
         Azog.getDetails();
 
         Azog.attack(creature);
 
-        Smog.getDetails();
+        Smaug.getDetails();
 
-        Smog.breathFire(creature);
+        Smaug.breathFire(creature);
 
-        Smog.restoreFirePower();
+        Smaug.restoreFirePower();
     }
 }
