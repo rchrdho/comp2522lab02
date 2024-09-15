@@ -30,14 +30,6 @@ public class Creature
         }
     }
 
-    public void attack(final Creature targetCreature)
-    {
-        int attackDamage = CREATURE_ATTACK_DAMAGE;
-        targetCreature.takeDamage(attackDamage);
-
-        System.out.printf("%s attacks %s for %d damage\n", this.name, targetCreature.name, attackDamage);
-    }
-
     protected void takeDamage(final int damage)
     {
         this.healthPoints -= damage;
