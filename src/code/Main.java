@@ -14,5 +14,7 @@ public class Main
         Smog.getDetails();
 
         Smog.breathFire(creature);
+
+        Smog.restoreFirePower();
     }
 }

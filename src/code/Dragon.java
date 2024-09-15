@@ -1,4 +1,6 @@
-public class Dragon extends Creature {
+public class Dragon extends Creature
+{
+
     private static final int    MAX_FIRE_POWER              = 100;
     private static final int    MIN_FIRE_POWER              = 0;
     private static final int    DRAGON_MAX_HP               = 500;
@@ -9,6 +11,7 @@ public class Dragon extends Creature {
     private static final String DRAGON_ATTACK_NAME          = "Breath Fire";
 
     private int firePower;
+    private int dragonHP;
 
     /**
      *
@@ -28,6 +31,7 @@ public class Dragon extends Creature {
 
         firePowerInRange(firePower);
         this.firePower = firePower;
+        this.dragonHP = dragonHP;
 
     }
 
@@ -50,11 +54,12 @@ public class Dragon extends Creature {
      *
      */
     @Override
-    public void getDetails() {
+    public void getDetails()
+    {
 
         super.getDetails();
 
-        System.out.printf("Fire Power: %d\n", firePower);
+        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
     /*
@@ -66,7 +71,7 @@ public class Dragon extends Creature {
 
         this.firePower -= FIRE_POWER_COST;
         attack(target);
-
+        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
     /*
@@ -108,23 +113,27 @@ public class Dragon extends Creature {
         return DRAGON_ATTACK_NAME;
     }
 
-    private int restoreFirePower(final int FIRE_POWER_RESTORE_AMOUNT)
+    protected void restoreFirePower()
     {
+        this.firePower += FIRE_POWER_RESTORE_AMOUNT;
         validateRestoreFirePower();
-        setRestoreFirePower();
-        return this.firePower;
+        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
+    /*
+    Validates rstoreFirePower, if its over MAX_FIRE_POWER set it to MAX_FIRE_POWER
+     */
     private void validateRestoreFirePower()
     {
         if(this.firePower > MAX_FIRE_POWER)
         {
-            this.firePower = MAX_FIRE_POWER;
+            setMaxFirePower(MAX_FIRE_POWER);
         }
     }
 
-    private void setRestoreFirePower()
+    private void setMaxFirePower(int maxFirePower)
     {
-        this.firePower += FIRE_POWER_RESTORE_AMOUNT;
+        this.firePower = maxFirePower;
     }
+
 }
