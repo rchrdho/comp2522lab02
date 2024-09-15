@@ -3,7 +3,7 @@
  * The Date class represents a specific calendar date, including day, month, and year, with validation and leap year handling.
  *
  * This class provides utility methods for:
- * - Validating the day, month, and year for a Date object based on a range of valid dates (VALID_YEAR_MIN to CURRENT_YEAR).
+ * - Validating the day, month, and year for a Date object based on a range of valid dates ({@value VALID_YEAR_MIN} to {@value CURRENT_YEAR}).
  * - Handling leap years in FEBRUARY.
  * - Calculating the day of the week for any valid date.
  * - Converting numeric representations of months into their string equivalents.
@@ -93,8 +93,8 @@ public class Date
      * Checks if the year is between VALID_YEAR_MIN and CURRENT_YEAR (validateYear)
      * Checks if the month is between MONTH_MIN and MONTH_MAX (validateMonth)
      * Checks if the day is valid for the given month/year by using a
-     * switch. Certain months always have MONTH_DAYS_31 days, certain months always have
-     * MONTH_DAYS_30 days. February returns MONTH_DAYS_29 or MONTH_DAYS_28 depending on the outcome of isLeapYear
+     * switch. Certain months always have {@value MONTH_DAYS_31} days, certain months always have
+     * {@value MONTH_DAYS_30} days. February returns {@value FEBRUARY_LONG} or {@value FEBRUARY_SHORT} depending on the outcome of isLeapYear
      * (validateDay)</pre>
      *
      *
@@ -221,9 +221,9 @@ public class Date
      *
      * <p>weekCode is incremented according to three checks prior to the algorithm:</p>
      * <ul>
-     *   <li>If the year of the Date is a leap year AND falls in FEBRUARY OR JANUARY, add WEEK_CODE_LEAP_YEAR_ADJUSTOR</li>
-     *   <li>If the year falls in the 1800s, add WEEK_CODE_1800S_ADJUSTOR</li>
-     *   <li>If the year falls in the 2000s, add WEEK_CODE_2000S_ADJUSTOR</li>
+     *   <li>If the year of the Date is a leap year AND falls in Feb OR Jan, add {@value WEEK_CODE_LEAP_YEAR_ADJUSTOR}</li>
+     *   <li>If the year falls in the 1800s, add {@value WEEK_CODE_1800S_ADJUSTOR}</li>
+     *   <li>If the year falls in the 2000s, add {@value WEEK_CODE_2000S_ADJUSTOR}</li>
      * </ul>
      *
      * <p>Each step of the following algorithm produces a number that is added to weekCode:</p>
@@ -233,42 +233,42 @@ public class Date
      *
      * 1. Calculate the number of twelves in the last two digits of the year.
      *      year == 1977
-     *      (1977 % EXTRACT_YEAR_DIGITS) = 77
-     *      77 / MONTHS_IN_YEAR = 6                                     weekCode += 6
+     *      (1977 % 100) = 77
+     *      77 / 12 = 6                                     weekCode += 6
      *
      * 2. Calculate the remainder from step one.
-     *      77 / MONTHS_IN_YEAR = 6
-     *      6 * MONTHS_IN_YEAR = 72
+     *      77 / 12 = 6
+     *      6 * 12 = 72
      *      77 - 72 = 5                                     weekCode += 5
      *
      * 3. Calculate the number of fours in step two.
-     *      5 / FOURS_IN_REMAINDER = 1                                       weekCode += 1
+     *      5 / 4 = 1                                       weekCode += 1
      *
      * 4. Add the day of the month to weekCode.
      *      day == 31                                       weekCode += 31
      *
      * 5. Add the month code to weekCode according to the following table:
      *      Month        [ J F M A M J J A S O N D ]
-     *      Month Code   [ MONTH_CODE_1 MONTH_CODE_4 MONTH_CODE_4 MONTH_CODE_0 MONTH_CODE_2 ... ]
-     *      October = O = MONTH_CODE_1                                 weekCode += MONTH_CODE_1
+     *      Month Code   [ 1 4 4 0 2 5 0 3 6 1 4 6 ]
+     *      October = O = 1                                 weekCode += 1
      *
      * 6. Final calculation:
      *      weekCode = 44
-     *      weekCode % DAYS_IN_WEEK = 2                                weekCode %= DAYS_IN_WEEK
+     *      weekCode % 7 = 2                                weekCode %= 7
      *
      * Result:
-     *      weekCode == MONDAY
+     *      weekCode == 2
      * </pre>
      *
-     * <p>These six steps result in an int between SATURDAY and FRIDAY.
+     * <p>These six steps result in an int between 0-6.
      * Each digit corresponds to a day of the week according to the following table:</p>
      *
      * <pre>
-     * Day of the Week [ SATURDAY  SUNDAY  MONDAY  TUESDAY  WEDNESDAY  THURSDAY  FRIDAY ]
-     * Week Code       [ SATURDAY  SUNDAY  MONDAY  TUESDAY  WEDNESDAY  THURSDAY  FRIDAY ]
+     * Day of the Week [ S  S  M  T  W  T  F ]
+     * Week Code       [ 0  1  2  3  4  5  6 ]
      * </pre>
      *
-     * <p>Since the final weekCode == MONDAY, October 31, 1977 was a Monday.</p>
+     * Since the final weekCode == 2, October 31, 1977 was a Monday.
      *
      * @return String of the day of the week for the Date object
      */
