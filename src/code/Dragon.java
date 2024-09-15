@@ -17,18 +17,16 @@ public class Dragon extends Creature
      *
      * @param dragonName                Name of the Dragon.
      * @param dragonBirthDate           The birthdate of the Dragon.
-     * @param firePower                 The Dragon's starting firePower, must be within the range.
      * @throws IllegalArgumentException If the firePower is out of range.
      */
     public Dragon(final String  dragonName,
-                  final Date    dragonBirthDate,
-                  final int     firePower)
+                  final Date    dragonBirthDate)
     {
 
         super(dragonName, dragonBirthDate);
 
         firePowerInRange(firePower);
-        this.firePower = firePower;
+        this.firePower = MAX_FIRE_POWER;
         this.setHealthPoints(DRAGON_MAX_HP);
     }
 

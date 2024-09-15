@@ -26,17 +26,15 @@ public class Elf extends Creature
      *
      * @param elfName      name of the elf
      * @param elfBirthDate birthdate of the elf
-     * @param mana         mana points of the elf (should be between ELF_MIN_MANA and ELF_MAX_MANA)
      */
     public Elf(final String elfName,
-               final Date   elfBirthDate,
-               final int    mana)
+               final Date   elfBirthDate)
     {
         super(elfName, elfBirthDate);
 
         validateMana(mana);
 
-        this.mana   = mana;
+        this.mana   = ELF_MAX_MANA;
         this.setHealthPoints(ELF_MAX_HP);
     }
 

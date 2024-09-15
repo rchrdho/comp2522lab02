@@ -31,7 +31,7 @@ public class Creature
         validateName(name);
         this.name = name;
         this.dateOfBirth = dateOfBirth;
-        this.healthPoints = CREATURE_MAX_HP; // Creature starts with full health.
+        this.healthPoints = CREATURE_MAX_HP;
     }
 
     /**
