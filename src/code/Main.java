@@ -1,26 +1,29 @@
 public class Main
 {
-    public static void main(final String[] args) throws LowFirePowerException {
+    public static void main(final String[] args) throws LowFirePowerException, LowManaException {
         Date today = new Date(1989, 06,25);
         Creature creature = new Creature("hello", today);
         Orc Azog = new Orc("Azog", today);
-        Dragon Smaug = new Dragon("Smaug",today,100, 100);
+        Dragon Smog = new Dragon("Smog",today,100, 100);
 
         creature.getDetails();
         Azog.getDetails();
 
         Azog.attack(creature);
 
-        Smaug.getDetails();
+        Smog.getDetails();
 
-        Smaug.breathFire(creature);
+        Smog.breathFire(creature);
 
-        Smaug.getDetails();
+        Smog.restoreFirePower();
 
-        Smaug.restoreFirePower();
 
-        System.out.println(Smaug.getHealthpoints());
-        Azog.attack(Smaug);
-        System.out.println(Smaug.getHealthpoints());
+        Elf Legolas = new Elf("Legolas", today, 50);
+        Legolas.getDetails();
+
+        Legolas.castSpell(creature);
+        Legolas.getDetails();
+
+
     }
 }

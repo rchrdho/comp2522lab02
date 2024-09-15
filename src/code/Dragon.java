@@ -35,7 +35,7 @@ public class Dragon extends Creature {
 
     /*
      <pre>
-     Validates firePower
+     Validator for firePower
      throws IllegalArgumentException if firePower is not within
      MIN_FIRE_POWER or MAX_FIRE_POWER
      <pre>
@@ -71,6 +71,8 @@ public class Dragon extends Creature {
                           DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
 
         this.firePower -= FIRE_POWER_COST;
+        attack(target);
+        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
     /*
