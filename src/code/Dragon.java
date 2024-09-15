@@ -1,17 +1,19 @@
 public class Dragon extends Creature {
+
+    // Symbolic Constants
     private static final int    MAX_FIRE_POWER              = 100;
     private static final int    MIN_FIRE_POWER              = 0;
     private static final int    DRAGON_MAX_HP               = 500;
-    private static final int    DRAGON_MIN_HP               = 0;
     private static final int    FIRE_POWER_COST             = 10;
     private static final int    DRAGON_ATTACK_DAMAGE        = 20;
     private static final int    FIRE_POWER_RESTORE_AMOUNT   = 20;
     private static final String DRAGON_ATTACK_NAME          = "Breath Fire";
 
+    // Instance variable
     private int firePower;
 
     /**
-     *
+     * Constructs a Dragon Object.
      *
      * @param dragonName
      * @param dragonBirthDate
@@ -59,15 +61,16 @@ public class Dragon extends Creature {
 
     /*
      */
-    protected void breathFire(final Creature target)
+    protected void breathFire(final Creature targetCreature)
             throws LowFirePowerException
     {
+
         validateBreathFire(this.firePower);
+        targetCreature.takeDamage(DRAGON_ATTACK_DAMAGE);
+        System.out.printf("%s attacks %s with %s for %d damage\n", this.getName(), targetCreature.getName(),
+                          DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
 
         this.firePower -= FIRE_POWER_COST;
-        attack(target);
-        System.out.printf("with %s for %d damage\n", DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
-        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
     /*
@@ -85,19 +88,6 @@ public class Dragon extends Creature {
         }
     }
 
-    /**
-     * Override attack method in Creature Class.
-     *
-     *
-     * @param target Creature to receive damage
-     */
-    @Override
-    public void attack(final Creature target)
-    {
-        super.attack(target);
-        target.setHealthPoints(-DRAGON_ATTACK_DAMAGE);
-    }
-
     protected void restoreFirePower()
     {
         this.firePower += FIRE_POWER_RESTORE_AMOUNT;
@@ -112,13 +102,8 @@ public class Dragon extends Creature {
     {
         if(this.firePower > MAX_FIRE_POWER)
         {
-            setMaxFirePower(MAX_FIRE_POWER);
+            this.firePower = MAX_FIRE_POWER;
         }
     }
 
-
-    private void setMaxFirePower(int maxFirePower)
-    {
-        this.firePower = maxFirePower;
-    }
 }

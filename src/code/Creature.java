@@ -110,7 +110,7 @@ public class Creature
 
     protected void setHealthPoints(final int healthChange)
     {
-        this.healthPoints += healthChange;
+        this.healthPoints = healthChange;
     }
 
     public String toString()

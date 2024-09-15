@@ -15,6 +15,8 @@ public class Main
 
         Smaug.breathFire(creature);
 
+        Smaug.getDetails();
+
         Smaug.restoreFirePower();
 
         System.out.println(Smaug.getHealthpoints());
