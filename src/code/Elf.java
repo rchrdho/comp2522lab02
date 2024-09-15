@@ -87,19 +87,6 @@ public class Elf extends Creature
     }
 
     /**
-     * Override attack method in Creature Class.
-     *
-     * @param target Creature to receive damage
-     */
-    @Override
-    public void attack(final Creature target)
-    {
-        super.attack(target);
-        setHealthPoints(-ELF_TARGET_DAMAGE);
-
-    }
-
-    /**
      * Restores the elf's mana by the specified amount, ensuring that the mana does not exceed ELF_MAX_MANA
      *
      * @param amount the amount of mana to restore

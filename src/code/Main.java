@@ -9,16 +9,17 @@ public class Main
         creature.getDetails();
         Azog.getDetails();
 
-        Azog.attack(creature);
-
         Smaug.getDetails();
 
-        Smaug.breathFire(creature);
-
-        Smaug.restoreFirePower();
-
         System.out.println(Smaug.getHealthpoints());
-        Azog.attack(Smaug);
+        Azog.berserk(Smaug);
         System.out.println(Smaug.getHealthpoints());
+        Azog.berserk(Smaug);
+        Azog.berserk(Smaug);
+        Azog.berserk(Smaug);
+        Azog.berserk(Smaug);
+        Azog.berserk(Smaug);
+        Azog.berserk(Smaug);
+        Azog.berserk(Smaug);
     }
 }
