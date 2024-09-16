@@ -105,7 +105,7 @@ public class Dragon extends Creature
 
         validateRestoreFirePower();
 
-        System.out.printf("%s used restore Fire Power: %d/%d\n", this.getName(), firePower, MAX_FIRE_POWER);
+        System.out.printf("%s used restore Fire Power\n", this.getName());
     }
 
     /**

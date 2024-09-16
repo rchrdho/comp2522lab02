@@ -70,7 +70,7 @@ public class Elf extends Creature
         this.mana -= ELF_MANA_COST;
 
         targetCreature.takeDamage(ELF_ATTACK_DAMAGE);
-        System.out.printf("%s attacks %s with %s for %d damage",
+        System.out.printf("%s attacks %s with %s for %d damage\n",
                 this.getName(),
                 targetCreature.getName(),
                 ELF_ATTACK_NAME,
