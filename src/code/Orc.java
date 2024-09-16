@@ -12,8 +12,10 @@ public class Orc extends Creature
     // Orc-specific rage attributes to control damage escalation.
     private static final int ORC_DEFAULT_RAGE       = 0;
     private static final int ORC_RAGE_INCREMENT     = 5;
-    private static final int RAGE_BONUS_THRESHOLD   = 20;
-    private static final int RAGE_DAMAGE_MULTIPLIER = 2;
+    private static final int RAGE_BONUS_TIER_ONE    = 10;
+    private static final int RAGE_BONUS_TIER_TWO    = 20;
+    private static final int RAGE_DOUBLE_DAMAGE     = 2;
+    private static final int RAGE_TRIPLE_DAMAGE     = 3;
 
     // Orc's rage level
     private int rage;
@@ -33,8 +35,8 @@ public class Orc extends Creature
 
     /**
      * Executes the Orc's berserk attack on the target creature.
-     * As the Orc attacks, its rage increases. If the rage reaches or exceeds {@value RAGE_BONUS_THRESHOLD},
-     * the attack deals {@value RAGE_DAMAGE_MULTIPLIER} times damage.
+     * As the Orc attacks, its rage increases. If the rage reaches or exceeds {@value RAGE_BONUS_TIER_ONE},
+     * the attack deals {@value RAGE_DOUBLE_DAMAGE} times damage.
      *
      * @param targetCreature The creature that is being attacked.
      */
@@ -42,7 +44,7 @@ public class Orc extends Creature
     {
         rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
 
-        if (rage < RAGE_BONUS_THRESHOLD)
+        if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
         {
             targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
             System.out.printf("%s attacks %s with %s for %d damage\n",
@@ -51,16 +53,28 @@ public class Orc extends Creature
                     ORC_ATTACK_NAME,
                     ORC_ATTACK_DAMAGE);
         }
-        else // attack with rage equal to or above RAGE_BONUS_THRESHOLD
+        else if (rage <= RAGE_BONUS_TIER_TWO) // rage boosted attack first tier
         {
-            targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DAMAGE_MULTIPLIER);
+            targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
 
             System.out.printf("OH MY GOD! %s has entered a berserk rage and is dealing double damage!\n", this.getName());
             System.out.printf("%s attacks %s with %s for %d damage\n",
                     this.getName(),
                     targetCreature.getName(),
                     ORC_ATTACK_NAME,
-                    ORC_ATTACK_DAMAGE * RAGE_DAMAGE_MULTIPLIER);
+                    ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
+        }
+        else // rage boosted attack second tier
+        {
+            targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
+            this.takeDamage(ORC_ATTACK_DAMAGE);
+
+            System.out.printf("%s entered a blinding rage. Damage greatly increased, but also hurts itself\n", this.getName());
+            System.out.printf("%s attacks %s with %s for %d damage\n",
+                    this.getName(),
+                    targetCreature.getName(),
+                    ORC_ATTACK_NAME,
+                    ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
         }
     }
 

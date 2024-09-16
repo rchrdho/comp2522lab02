@@ -5,7 +5,7 @@
 public class Creature
 {
     // Constants to define health boundaries for creatures.
-    private static final int CREATURE_MAX_HP = 100;
+    private static final int CREATURE_MAX_HP = 500;
     private static final int CREATURE_MIN_HP = 0;
 
     // Constants for validation of heal and damage amounts.
@@ -68,7 +68,7 @@ public class Creature
 
     /**
      * Heals the creature by the specified amount.
-     * Health is clamped to a maximum value defined by CREATURE_MAX_HP.
+     * Health cannot exceed {@value CREATURE_MAX_HP}.
      *
      * @param healAmount The amount of health to restore.
      * @throws HealingException If the heal amount is invalid.
