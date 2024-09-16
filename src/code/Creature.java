@@ -62,13 +62,8 @@ public class Creature
             throw new DamageException("Damage cannot be negative");
         }
 
-        this.healthPoints -= damage;
-
         // Ensure health doesn't drop below the minimum allowable HP.
-        if (this.healthPoints < MIN_HEALTH_AMOUNT)
-        {
-            this.healthPoints = MIN_HEALTH_AMOUNT;
-        }
+        this.healthPoints = Math.min(this.healthPoints - damage, MIN_HEALTH_AMOUNT);
     }
 
     /**
@@ -81,13 +76,9 @@ public class Creature
     private void heal(final int healAmount)
     {
         validateHealAmount(healAmount);
-        this.healthPoints += healAmount;
 
-        // Ensure health does not exceed the maximum allowable HP.
-        if (this.healthPoints > CREATURE_MAX_HP)
-        {
-            this.healthPoints = CREATURE_MAX_HP;
-        }
+        // choose the lesser of (current health points + heal amount) OR CREATURE_MAX_HP
+        this.healthPoints = Math.min(this.healthPoints + healAmount, CREATURE_MAX_HP);
     }
 
     /**

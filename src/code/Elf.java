@@ -14,7 +14,6 @@ public class Elf extends Creature
 
     private static final int ELF_MANA_COST           = 5;
     private static final int ELF_ATTACK_DAMAGE       = 10;
-    private static final int ELF_LOWEST_MANA_USAGE   = 5;
     private static final int ELF_MANA_RESTORE_AMOUNT = 5;
 
     private static final String ELF_ATTACK_NAME      = "spell";
@@ -65,9 +64,9 @@ public class Elf extends Creature
     protected final void castSpell(final Creature targetCreature)
             throws LowManaException
     {
-        validateManaUsage(this.mana);
+        validateManaUsage();
 
-        this.mana -= ELF_MANA_COST;
+        this.mana = Math.max(this.mana - ELF_MANA_COST, ELF_MIN_MANA);
 
         targetCreature.takeDamage(ELF_ATTACK_DAMAGE);
         System.out.printf("%s attacks %s with %s for %d damage\n",
@@ -80,16 +79,15 @@ public class Elf extends Creature
     /**
      * Validates mana usage; checks whether it is lower than ELF_LOWEST_MANA_USAGE.
      *
-     * @param mana Mana to be checked.
      * @throws LowManaException If the elf's mana is less than ELF_LOWEST_MANA_USAGE
      */
-    private void validateManaUsage(final int mana)
+    private void validateManaUsage()
             throws LowManaException
     {
-        if (mana < ELF_LOWEST_MANA_USAGE)
+        if (this.mana < ELF_MANA_COST)
         {
             throw new LowManaException(String.format("Mana is lower than %d. Cannot use it right now.",
-                    ELF_LOWEST_MANA_USAGE));
+                    ELF_MANA_COST));
         }
     }
 
@@ -98,20 +96,7 @@ public class Elf extends Creature
      */
     public void restoreMana()
     {
-        mana += ELF_MANA_RESTORE_AMOUNT;
-        validateRestoreMana();
-    }
-
-    /**
-     * Validates restore mana, checks if the mana is higher than ELF_MAX_MANA and if it is, sets the mana to
-     * ELF_MAX_MANA
-     */
-    private void validateRestoreMana()
-    {
-        if (this.mana > ELF_MAX_MANA)
-        {
-            this.mana = ELF_MAX_MANA;
-        }
+        this.mana = Math.min(this.mana + ELF_MANA_RESTORE_AMOUNT, ELF_MAX_MANA);
     }
 
     /**

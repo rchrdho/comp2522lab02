@@ -72,8 +72,8 @@ public class Dragon extends Creature
         System.out.printf("%s attacks %s with %s for %d damage\n", this.getName(), targetCreature.getName(),
                           DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
 
-        // Reduce firePower by FIRE_POWER_COST after breathFire
-        this.firePower -= FIRE_POWER_COST;
+        // Reduce firePower by FIRE_POWER_COST after breathFire or set to 0 if firePower would be negative
+        this.firePower = Math.max(this.firePower - FIRE_POWER_COST, MIN_FIRE_POWER);
         System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
     }
 
@@ -96,27 +96,13 @@ public class Dragon extends Creature
 
     /**
      * Restores the Dragon's firePower by a fixed amount.
-     * Validates that the firePower does not exceed the maximum allowed value.
-     * Made final it cannot be modified.
+     * Validates that the firePower does not exceed the maximum allowed value using Math.min
+     * Made final it cannot be overridden by potential subclasses.
      */
     protected final void restoreFirePower()
     {
-        this.firePower += FIRE_POWER_RESTORE_AMOUNT;
-
-        validateRestoreFirePower();
+        this.firePower = Math.min(this.firePower + FIRE_POWER_RESTORE_AMOUNT, MAX_FIRE_POWER);
 
         System.out.printf("%s used restore Fire Power\n", this.getName());
     }
-
-    /**
-     *  Validates restoreFirePower, if its over MAX_FIRE_POWER set it to MAX_FIRE_POWER.
-     */
-    private void validateRestoreFirePower()
-    {
-        if(this.firePower > MAX_FIRE_POWER)
-        {
-            this.firePower = MAX_FIRE_POWER;
-        }
-    }
-
 }

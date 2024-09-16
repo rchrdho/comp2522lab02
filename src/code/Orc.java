@@ -12,7 +12,7 @@ public class Orc extends Creature
     // Orc-specific rage attributes to control damage escalation.
     private static final int ORC_DEFAULT_RAGE       = 0;
     private static final int ORC_RAGE_INCREMENT     = 5;
-    private static final int RAGE_DAMAGE_THRESHOLD  = 20;
+    private static final int RAGE_BONUS_THRESHOLD   = 20;
     private static final int RAGE_DAMAGE_MULTIPLIER = 2;
 
     // Orc's rage level
@@ -27,13 +27,13 @@ public class Orc extends Creature
     public Orc(final String name, final Date birthday)
     {
         super(name, birthday);
-        this.rage = ORC_DEFAULT_RAGE;          // Initialize rage to the default value.
-        this.setHealthPoints(ORC_MAX_HP);      // Set Orc's health to the maximum allowed HP.
+        this.rage = ORC_DEFAULT_RAGE;
+        this.setHealthPoints(ORC_MAX_HP);
     }
 
     /**
      * Executes the Orc's berserk attack on the target creature.
-     * As the Orc attacks, its rage increases. If the rage reaches or exceeds {@value RAGE_DAMAGE_THRESHOLD},
+     * As the Orc attacks, its rage increases. If the rage reaches or exceeds {@value RAGE_BONUS_THRESHOLD},
      * the attack deals {@value RAGE_DAMAGE_MULTIPLIER} times damage.
      *
      * @param targetCreature The creature that is being attacked.
@@ -42,7 +42,16 @@ public class Orc extends Creature
     {
         rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
 
-        if (rage >= RAGE_DAMAGE_THRESHOLD)
+        if (rage < RAGE_BONUS_THRESHOLD)
+        {
+            targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
+            System.out.printf("%s attacks %s with %s for %d damage\n",
+                    this.getName(),
+                    targetCreature.getName(),
+                    ORC_ATTACK_NAME,
+                    ORC_ATTACK_DAMAGE);
+        }
+        else // attack with rage equal to or above RAGE_BONUS_THRESHOLD
         {
             targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DAMAGE_MULTIPLIER);
 
@@ -52,15 +61,6 @@ public class Orc extends Creature
                     targetCreature.getName(),
                     ORC_ATTACK_NAME,
                     ORC_ATTACK_DAMAGE * RAGE_DAMAGE_MULTIPLIER);
-        }
-        else // "Normal" attack beneath rage threshold
-        {
-            targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
-            System.out.printf("%s attacks %s with %s for %d damage\n",
-                    this.getName(),
-                    targetCreature.getName(),
-                    ORC_ATTACK_NAME,
-                    ORC_ATTACK_DAMAGE);
         }
     }
 
