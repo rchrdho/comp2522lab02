@@ -7,7 +7,7 @@ public class Dragon extends Creature
     private static final int    FIRE_POWER_COST             = 10;
     private static final int    DRAGON_ATTACK_DAMAGE        = 20;
     private static final int    FIRE_POWER_RESTORE_AMOUNT   = 20;
-    private static final String DRAGON_ATTACK_NAME          = "Breath Fire";
+    private static final String DRAGON_ATTACK_NAME          = "breathe fire";
 
     // Instance variable
     private int firePower;
@@ -17,31 +17,16 @@ public class Dragon extends Creature
      *
      * @param dragonName                Name of the Dragon.
      * @param dragonBirthDate           The birthdate of the Dragon.
-     * @throws IllegalArgumentException If the firePower is out of range.
+     * @throws IllegalArgumentException If name is null or empty
      */
     public Dragon(final String  dragonName,
                   final Date    dragonBirthDate)
+            throws IllegalArgumentException
     {
-
         super(dragonName, dragonBirthDate);
 
-        firePowerInRange(firePower);
         this.firePower = MAX_FIRE_POWER;
         this.setHealthPoints(DRAGON_MAX_HP);
-    }
-
-    /**
-     * Ensures that the Dragon's firePower is above MIN_FIRE_POWER and below MAX_FIRE_POWER.
-     *
-     * @param firePower                 The current firePower of the Dragon.
-     * @throws IllegalArgumentException if firePower is out of range.
-     */
-    private void firePowerInRange(final int firePower)
-    {
-        if(firePower < MIN_FIRE_POWER || firePower > MAX_FIRE_POWER)
-        {
-            throw new IllegalArgumentException("Fire power out of range");
-        }
     }
 
     /**
@@ -52,7 +37,9 @@ public class Dragon extends Creature
     {
         super.getDetails();
 
-        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
+        System.out.printf("Fire Power: %d/%d\n",
+                firePower,
+                MAX_FIRE_POWER);
     }
 
     /**
@@ -61,20 +48,25 @@ public class Dragon extends Creature
      * @param targetCreature         The target creature to attack.
      * @throws LowFirePowerException If the Dragon's firePower is too low to attack.
      */
-    protected final void breathFire(final Creature targetCreature)
+    protected final void breatheFire(final Creature targetCreature)
             throws LowFirePowerException
     {
 
-        validateBreathFire(this.firePower);
+        validateBreatheFire(this.firePower);
 
         targetCreature.takeDamage(DRAGON_ATTACK_DAMAGE);
 
-        System.out.printf("%s attacks %s with %s for %d damage\n", this.getName(), targetCreature.getName(),
-                          DRAGON_ATTACK_NAME, DRAGON_ATTACK_DAMAGE);
+        System.out.printf("%s attacks %s with %s for %d damage\n",
+                this.getName(),
+                targetCreature.getName(),
+                DRAGON_ATTACK_NAME,
+                DRAGON_ATTACK_DAMAGE);
 
         // Reduce firePower by FIRE_POWER_COST after breathFire or set to 0 if firePower would be negative
         this.firePower = Math.max(this.firePower - FIRE_POWER_COST, MIN_FIRE_POWER);
-        System.out.printf("Fire Power: %d/%d\n", firePower, MAX_FIRE_POWER);
+        System.out.printf("Fire Power: %d/%d\n",
+                firePower,
+                MAX_FIRE_POWER);
     }
 
     /**
@@ -83,13 +75,13 @@ public class Dragon extends Creature
      * @param firePower                 The current firePower of the Dragon.
      * @throws LowFirePowerException    if the firePower is below the required threshold for breathing fire.
      */
-    private static void validateBreathFire(int firePower)
+    private static void validateBreatheFire(int firePower)
             throws LowFirePowerException
     {
         if(firePower < FIRE_POWER_COST)
         {
             throw new LowFirePowerException(
-                    String.format("Unable to cast\nCurrent fire power is: %d\n",
+                    String.format("Unable to cast. Current fire power is: %d\n",
                     firePower));
         }
     }
@@ -103,7 +95,8 @@ public class Dragon extends Creature
     {
         this.firePower = Math.min(this.firePower + FIRE_POWER_RESTORE_AMOUNT, MAX_FIRE_POWER);
 
-        System.out.printf("%s used restore Fire Power\n", this.getName());
+        System.out.printf("%s used restore Fire Power\n",
+                this.getName());
     }
 
     public void setFirePower(int newFirePower)

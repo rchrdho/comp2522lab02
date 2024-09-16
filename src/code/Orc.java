@@ -28,10 +28,11 @@ public class Orc extends Creature
      *
      * @param name The name of the Orc.
      * @param birthday The Orc's birthdate.
+     * @throws IllegalArgumentException If name is null or empty
      */
     public Orc(final String name,
                final Date birthday)
-        throws IllegalArgumentException
+            throws IllegalArgumentException
     {
         super(name, birthday);
         this.rage = ORC_MIN_RAGE;

@@ -16,7 +16,7 @@ public class Elf extends Creature
     private static final int ELF_ATTACK_DAMAGE       = 10;
     private static final int ELF_MANA_RESTORE_AMOUNT = 5;
 
-    private static final String ELF_ATTACK_NAME      = "spell";
+    private static final String ELF_ATTACK_NAME      = "arcane bolt";
 
     private int mana;
 
@@ -25,31 +25,16 @@ public class Elf extends Creature
      *
      * @param elfName      name of the elf
      * @param elfBirthDate birthdate of the elf
+     * @throws IllegalArgumentException If name is null or empty
      */
     public Elf(final String elfName,
                final Date   elfBirthDate)
+            throws IllegalArgumentException
     {
         super(elfName, elfBirthDate);
 
-        validateMana(mana);
-
         this.mana   = ELF_MAX_MANA;
         this.setHealthPoints(ELF_MAX_HP);
-    }
-
-    /**
-     * Validates mana; checks whether it is lower than ELF_MIN_MANA or higher than ELF_MAX_MANA.
-     * Throws an IllegalArgumentException when mana is not valid.
-     *
-     * @param mana Mana to be checked
-     */
-    private static void validateMana(final int mana)
-    {
-        if(mana < ELF_MIN_MANA || mana > ELF_MAX_MANA)
-        {
-            throw new IllegalArgumentException(String.format("Elf mana cannot be less than %d or higher than %d ",
-                    ELF_MIN_MANA, ELF_MAX_MANA));
-        }
     }
 
     /**
@@ -61,7 +46,7 @@ public class Elf extends Creature
      * @param targetCreature Creature to receive damage
      * @throws LowManaException If the elf's mana is less than ELF_LOWEST_MANA_USAGE
      */
-    protected final void castSpell(final Creature targetCreature)
+    protected final void arcaneBolt(final Creature targetCreature)
             throws LowManaException
     {
         validateManaUsage();
@@ -97,6 +82,11 @@ public class Elf extends Creature
     public void restoreMana()
     {
         this.mana = Math.min(this.mana + ELF_MANA_RESTORE_AMOUNT, ELF_MAX_MANA);
+        System.out.printf("%s restores %d mana.\nMana: %d/%d\n",
+                this.getName(),
+                ELF_MANA_RESTORE_AMOUNT,
+                this.getMana(),
+                ELF_MAX_MANA);
     }
 
     /**
@@ -108,6 +98,11 @@ public class Elf extends Creature
         super.getDetails();
 
         System.out.printf("Mana: %d/%d\n", mana, ELF_MAX_MANA);
+    }
+
+    public int getMana()
+    {
+        return this.mana;
     }
 
     public void setMana(int mana)

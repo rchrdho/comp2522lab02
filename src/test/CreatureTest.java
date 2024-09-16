@@ -9,11 +9,8 @@ public class CreatureTest
         Elf legolas;
         Orc azog;
 
-
         birthday        = new Date(1800, 2, 22);
 
-        smaug           = new Dragon("Smaug", birthday);
-        azog            = new Orc("Azog", birthday);
         legolas         = new Elf("Legolas", birthday);
 
         greg            = new Creature("greg", birthday);
@@ -21,24 +18,52 @@ public class CreatureTest
         System.out.println("Dragon Tests");
         try
         {
+            smaug           = new Dragon("Smaug", birthday);
             if (smaug instanceof Dragon)
             {
                 System.out.println("\nDragon Details:");
                 smaug.getDetails();
-                smaug.breathFire(greg);
+                smaug.breatheFire(greg);
                 smaug.setFirePower(0);
-                smaug.breathFire(greg);
                 smaug.getDetails();
                 smaug.restoreFirePower();
+                smaug.getDetails();
+                smaug.setFirePower(0);
+                smaug.getDetails();
+                smaug.breatheFire(greg);
             }
-        } catch (LowFirePowerException e)
+        }
+        catch (LowFirePowerException e)
         {
-            System.out.println("Dragon couldn't breathe fire: " + e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        try
+        {
+            Dragon glaurung = new Dragon(null, birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        try
+        {
+            Dragon encalagon = new Dragon("", birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
         }
 
         System.out.println("Orc Tests");
         try
         {
+            azog = new Orc("Azog", birthday);
             if (azog instanceof Orc)
             {
                 System.out.println("\nOrc Details:");
@@ -84,23 +109,35 @@ public class CreatureTest
             System.out.println(e.getMessage());
         }
 
-        System.out.println("\nElf Tests");
+        System.out.println("\nElf Tests\n");
         try
         {
             if (legolas instanceof Elf)
             {
-                System.out.println("\nElf Details:");
+                System.out.println("Elf Details:");
                 legolas.getDetails();
-                legolas.castSpell(greg);
+                legolas.arcaneBolt(greg);
+                legolas.getDetails();
                 legolas.setMana(0);
-                legolas.castSpell(greg);
                 legolas.getDetails();
                 legolas.restoreMana();
+                legolas.arcaneBolt(greg);
+                legolas.setMana(0);
                 legolas.getDetails();
+                legolas.arcaneBolt(greg);
             }
         } catch (LowManaException e)
         {
             System.out.println("Elf couldn't cast spell: " + e.getMessage());
+        }
+
+        try
+        {
+            Elf elrond = new Elf(null, birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
         }
 
         if (greg instanceof Creature)
