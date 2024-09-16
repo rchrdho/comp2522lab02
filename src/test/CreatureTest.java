@@ -1,3 +1,5 @@
+import javax.swing.plaf.synth.SynthTextAreaUI;
+
 public class CreatureTest
 {
     public static void main(final String[] args)
@@ -5,17 +7,52 @@ public class CreatureTest
         Date birthday;
 
         Creature greg;
+        Creature gregg;
         Dragon smaug;
         Elf legolas;
         Orc azog;
 
-        birthday        = new Date(1800, 2, 22);
+        birthday = new Date(1800, 2, 22);
+        gregg = new Creature("gregg", birthday);
 
-        legolas         = new Elf("Legolas", birthday);
+        System.out.println("Creature Tests");
+        // Successfully instance a Creature and execute its methods
+        try
+        {
+            greg = new Creature("greg", birthday);
+            if (greg instanceof Creature)
+            {
+                System.out.println("\nCreature Details:");
+                greg.getDetails();
+            }
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
 
-        greg            = new Creature("greg", birthday);
+        // Catch null name
+        try
+        {
+            Creature steve = new Creature(null, birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        // Catch empty name
+        try
+        {
+            Creature mike = new Creature("", birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
 
         System.out.println("Dragon Tests");
+        // successfully execute each method, then catch LowFirePowerException
         try
         {
             smaug           = new Dragon("Smaug", birthday);
@@ -23,14 +60,14 @@ public class CreatureTest
             {
                 System.out.println("\nDragon Details:");
                 smaug.getDetails();
-                smaug.breatheFire(greg);
+                smaug.breatheFire(gregg);
                 smaug.setFirePower(0);
                 smaug.getDetails();
                 smaug.restoreFirePower();
                 smaug.getDetails();
                 smaug.setFirePower(0);
                 smaug.getDetails();
-                smaug.breatheFire(greg);
+                smaug.breatheFire(gregg);
             }
         }
         catch (LowFirePowerException e)
@@ -42,6 +79,7 @@ public class CreatureTest
             System.out.println(e.getMessage());
         }
 
+        // Catch null birthday
         try
         {
             Dragon glaurung = new Dragon(null, birthday);
@@ -51,6 +89,7 @@ public class CreatureTest
             System.out.println(e.getMessage());
         }
 
+        // Catch empty birthday
         try
         {
             Dragon encalagon = new Dragon("", birthday);
@@ -69,18 +108,18 @@ public class CreatureTest
                 System.out.println("\nOrc Details:");
                 azog.getDetails();
                 azog.bloodlust();
-                azog.berserk(greg);
-                azog.berserk(greg);
-                azog.berserk(greg);
-                azog.berserk(greg);
+                azog.berserk(gregg);
+                azog.berserk(gregg);
+                azog.berserk(gregg);
+                azog.berserk(gregg);
                 azog.getDetails();
                 azog.meditate();
-                azog.berserk(greg);
-                azog.berserk(greg);
-                azog.berserk(greg);
+                azog.berserk(gregg);
+                azog.berserk(gregg);
+                azog.berserk(gregg);
                 azog.getDetails();
                 azog.meditate();
-                azog.berserk(greg);
+                azog.berserk(gregg);
             }
         }
         catch (LowRageException e)
@@ -110,27 +149,31 @@ public class CreatureTest
         }
 
         System.out.println("\nElf Tests\n");
+        // Successfully instance object and execute methods. Then catch LowManaException
         try
         {
+            legolas = new Elf("Legolas", birthday);
+
             if (legolas instanceof Elf)
             {
                 System.out.println("Elf Details:");
                 legolas.getDetails();
-                legolas.arcaneBolt(greg);
+                legolas.arcaneBolt(gregg);
                 legolas.getDetails();
                 legolas.setMana(0);
                 legolas.getDetails();
                 legolas.restoreMana();
-                legolas.arcaneBolt(greg);
+                legolas.arcaneBolt(gregg);
                 legolas.setMana(0);
                 legolas.getDetails();
-                legolas.arcaneBolt(greg);
+                legolas.arcaneBolt(gregg);
             }
         } catch (LowManaException e)
         {
             System.out.println("Elf couldn't cast spell: " + e.getMessage());
         }
 
+        // Catch null birthday
         try
         {
             Elf elrond = new Elf(null, birthday);
@@ -140,10 +183,18 @@ public class CreatureTest
             System.out.println(e.getMessage());
         }
 
-        if (greg instanceof Creature)
+        try
         {
-            System.out.println("\nCreature Details:");
-            greg.getDetails();
+            Elf galadriel = new Elf("", birthday);
         }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        Orc shagrat = new Orc("Shagrat", birthday);
+        gregg.setHealthPoints(10);
+        shagrat.berserk(gregg);
+        gregg.getDetails();
     }
 }

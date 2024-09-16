@@ -63,48 +63,51 @@ public class Orc extends Creature
     protected final void berserk(final Creature targetCreature)
             throws LowRageException
     {
-        if(rage < BERSERK_MIN_RAGE)
-        {
-            throw new LowRageException("Not enough rage to go berserk");
+        try {
+            if (rage < BERSERK_MIN_RAGE) {
+                throw new LowRageException("Not enough rage to go berserk");
+            }
+
+            rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
+
+            if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
+            {
+                targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
+                System.out.printf("%s attacks %s with %s for %d damage\n",
+                        this.getName(),
+                        targetCreature.getName(),
+                        ORC_ATTACK_NAME,
+                        ORC_ATTACK_DAMAGE);
+            } else if (rage <= RAGE_BONUS_TIER_TWO) // rage boosted attack first tier
+            {
+                targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
+
+                System.out.printf("%s is enraged and dealing double damage!\n", this.getName());
+                System.out.printf("%s attacks %s with %s for %d damage\n",
+                        this.getName(),
+                        targetCreature.getName(),
+                        ORC_ATTACK_NAME,
+                        ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
+            } else // rage boosted attack second tier (costs RAGE_BONUS_TIER_TWO rage)
+            {
+                targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
+                this.takeDamage(ORC_ATTACK_DAMAGE); // self damage
+
+                this.rage = Math.min(this.rage - RAGE_BONUS_TIER_TWO, ORC_MIN_RAGE);
+
+                System.out.printf("%s is in a blinding rage. Damage tripled, but also hurts itself\n", this.getName());
+                System.out.printf("%s wildly attacks %s with %s for %d damage. %s takes %d damage in its rage.\n",
+                        this.getName(),
+                        targetCreature.getName(),
+                        ORC_ATTACK_NAME,
+                        ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE,
+                        this.getName(),
+                        ORC_ATTACK_DAMAGE);
+            }
         }
-
-        rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
-
-        if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
+        catch (LowRageException e)
         {
-            targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
-            System.out.printf("%s attacks %s with %s for %d damage\n",
-                    this.getName(),
-                    targetCreature.getName(),
-                    ORC_ATTACK_NAME,
-                    ORC_ATTACK_DAMAGE);
-        }
-        else if (rage <= RAGE_BONUS_TIER_TWO) // rage boosted attack first tier
-        {
-            targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
-
-            System.out.printf("%s is enraged and dealing double damage!\n", this.getName());
-            System.out.printf("%s attacks %s with %s for %d damage\n",
-                    this.getName(),
-                    targetCreature.getName(),
-                    ORC_ATTACK_NAME,
-                    ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
-        }
-        else // rage boosted attack second tier (costs RAGE_BONUS_TIER_TWO rage)
-        {
-            targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
-            this.takeDamage(ORC_ATTACK_DAMAGE); // self damage
-
-            this.rage = Math.min(this.rage - RAGE_BONUS_TIER_TWO, ORC_MIN_RAGE);
-
-            System.out.printf("%s is in a blinding rage. Damage tripled, but also hurts itself\n", this.getName());
-            System.out.printf("%s wildly attacks %s with %s for %d damage. %s takes %d damage in its rage.\n",
-                    this.getName(),
-                    targetCreature.getName(),
-                    ORC_ATTACK_NAME,
-                    ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE,
-                    this.getName(),
-                    ORC_ATTACK_DAMAGE);
+            System.out.println(e.getMessage());
         }
     }
 
