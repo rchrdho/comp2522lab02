@@ -26,7 +26,9 @@ public class Creature
      * @param dateOfBirth The creature's date of birth.
      * @throws IllegalArgumentException If the name is null or empty.
      */
-    public Creature(final String name, final Date dateOfBirth)
+    public Creature(final String name,
+                    final Date dateOfBirth)
+        throws IllegalArgumentException
     {
         validateName(name);
         this.name = name;
@@ -42,7 +44,7 @@ public class Creature
      */
     private static void validateName(final String name)
     {
-        if (name == null || name.isEmpty())
+        if (name == null || name.trim().isEmpty())
         {
             throw new IllegalArgumentException("Creature name cannot be null or empty");
         }
@@ -63,7 +65,7 @@ public class Creature
         }
 
         // Ensure health doesn't drop below MIN_HEALTH_AMOUNT.
-        this.healthPoints = Math.min(this.healthPoints - damage, MIN_HEALTH_AMOUNT);
+        this.healthPoints = Math.max(this.healthPoints - damage, MIN_HEALTH_AMOUNT);
     }
 
     /**

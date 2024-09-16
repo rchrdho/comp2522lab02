@@ -12,8 +12,8 @@ public class Orc extends Creature
     // Orc-specific rage attributes to control damage escalation.
     private static final int ORC_MIN_RAGE            = 0;
     private static final int ORC_RAGE_INCREMENT      = 5;
-    private static final int RAGE_BONUS_TIER_ONE     = 10;
-    private static final int RAGE_BONUS_TIER_TWO     = 20;
+    private static final int RAGE_BONUS_TIER_ONE     = 15;
+    private static final int RAGE_BONUS_TIER_TWO     = 25;
     private static final int RAGE_DOUBLE_DAMAGE      = 2;
     private static final int RAGE_TRIPLE_DAMAGE      = 3;
     private static final int BERSERK_MIN_RAGE        = 5;
@@ -29,7 +29,9 @@ public class Orc extends Creature
      * @param name The name of the Orc.
      * @param birthday The Orc's birthdate.
      */
-    public Orc(final String name, final Date birthday)
+    public Orc(final String name,
+               final Date birthday)
+        throws IllegalArgumentException
     {
         super(name, birthday);
         this.rage = ORC_MIN_RAGE;
@@ -57,7 +59,8 @@ public class Orc extends Creature
      * @param targetCreature The creature that is being attacked.
      * @throws LowRageException if rage is less than {@value BERSERK_MIN_RAGE}
      */
-    protected final void berserk(final Creature targetCreature) throws LowRageException
+    protected final void berserk(final Creature targetCreature)
+            throws LowRageException
     {
         if(rage < BERSERK_MIN_RAGE)
         {
@@ -79,7 +82,7 @@ public class Orc extends Creature
         {
             targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
 
-            System.out.printf("OH MY GOD! %s has entered a berserk rage and is dealing double damage!\n", this.getName());
+            System.out.printf("%s is enraged and dealing double damage!\n", this.getName());
             System.out.printf("%s attacks %s with %s for %d damage\n",
                     this.getName(),
                     targetCreature.getName(),
@@ -93,7 +96,7 @@ public class Orc extends Creature
 
             this.rage = Math.min(this.rage - RAGE_BONUS_TIER_TWO, ORC_MIN_RAGE);
 
-            System.out.printf("%s entered a blinding rage. Damage greatly increased, but also hurts itself\n", this.getName());
+            System.out.printf("%s is in a blinding rage. Damage tripled, but also hurts itself\n", this.getName());
             System.out.printf("%s wildly attacks %s with %s for %d damage. %s takes %d damage in its rage.\n",
                     this.getName(),
                     targetCreature.getName(),
@@ -111,6 +114,7 @@ public class Orc extends Creature
     protected final void bloodlust()
     {
         this.rage += ORC_RAGE_INCREMENT;
+        System.out.printf("%s enters a bloodlust. Rage increases\n", this.getName());
     }
 
     /**
@@ -120,6 +124,10 @@ public class Orc extends Creature
     protected final void meditate()
     {
         this.rage = Math.max(this.rage - MEDITATE_RAGE_REDUCTION, ORC_MIN_RAGE);
+        System.out.printf("%s starts to meditate, reducing rage by %d.\nRage: %d\n",
+                this.getName(),
+                MEDITATE_RAGE_REDUCTION,
+                this.getRage());
     }
 
     /**
@@ -147,6 +155,11 @@ public class Orc extends Creature
     public int getRage()
     {
         return this.rage;
+    }
+
+    public void setRage(int newRage)
+    {
+        this.rage = newRage;
     }
 
 }

@@ -105,4 +105,9 @@ public class Dragon extends Creature
 
         System.out.printf("%s used restore Fire Power\n", this.getName());
     }
+
+    public void setFirePower(int newFirePower)
+    {
+        firePower = newFirePower;
+    }
 }

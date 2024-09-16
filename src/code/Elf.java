@@ -109,4 +109,9 @@ public class Elf extends Creature
 
         System.out.printf("Mana: %d/%d\n", mana, ELF_MAX_MANA);
     }
+
+    public void setMana(int mana)
+    {
+        this.mana = mana;
+    }
 }

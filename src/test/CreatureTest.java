@@ -4,7 +4,7 @@ public class CreatureTest
     {
         Date birthday;
 
-        Creature defaultCreature;
+        Creature greg;
         Dragon smaug;
         Elf legolas;
         Orc azog;
@@ -16,15 +16,18 @@ public class CreatureTest
         azog            = new Orc("Azog", birthday);
         legolas         = new Elf("Legolas", birthday);
 
-        defaultCreature = new Creature("Unnamed Creature", birthday);
+        greg            = new Creature("greg", birthday);
 
+        System.out.println("Dragon Tests");
         try
         {
             if (smaug instanceof Dragon)
             {
                 System.out.println("\nDragon Details:");
                 smaug.getDetails();
-                smaug.breathFire(defaultCreature);
+                smaug.breathFire(greg);
+                smaug.setFirePower(0);
+                smaug.breathFire(greg);
                 smaug.getDetails();
                 smaug.restoreFirePower();
             }
@@ -33,28 +36,64 @@ public class CreatureTest
             System.out.println("Dragon couldn't breathe fire: " + e.getMessage());
         }
 
+        System.out.println("Orc Tests");
         try
         {
             if (azog instanceof Orc)
             {
                 System.out.println("\nOrc Details:");
                 azog.getDetails();
-                azog.berserk(defaultCreature);
+                azog.bloodlust();
+                azog.berserk(greg);
+                azog.berserk(greg);
+                azog.berserk(greg);
+                azog.berserk(greg);
                 azog.getDetails();
-                azog.getRage();
+                azog.meditate();
+                azog.berserk(greg);
+                azog.berserk(greg);
+                azog.berserk(greg);
+                azog.getDetails();
+                azog.meditate();
+                azog.berserk(greg);
             }
-        } catch (LowRageException e)
+        }
+        catch (LowRageException e)
         {
-            System.out.println("Orc couldn't perform rage attack: " + e.getMessage());
+            System.out.println("Orc couldn't perform berserk attack: " + e.getMessage());
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("Name cannot be null or empty");
         }
 
+        try
+        {
+            Orc gothmaw = new Orc(null, birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        try
+        {
+            Orc lurtz = new Orc("", birthday);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("\nElf Tests");
         try
         {
             if (legolas instanceof Elf)
             {
                 System.out.println("\nElf Details:");
                 legolas.getDetails();
-                legolas.castSpell(defaultCreature);
+                legolas.castSpell(greg);
+                legolas.setMana(0);
+                legolas.castSpell(greg);
                 legolas.getDetails();
                 legolas.restoreMana();
                 legolas.getDetails();
@@ -64,10 +103,10 @@ public class CreatureTest
             System.out.println("Elf couldn't cast spell: " + e.getMessage());
         }
 
-        if (defaultCreature instanceof Creature)
+        if (greg instanceof Creature)
         {
             System.out.println("\nCreature Details:");
-            defaultCreature.getDetails();
+            greg.getDetails();
         }
     }
 }
