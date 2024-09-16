@@ -50,19 +50,19 @@ public class Creature
 
     /**
      * Reduces the creature's health points by the specified damage amount.
-     * If damage is negative, throws an exception. Health is clamped to a minimum value of 0.
+     * If damage is negative, throws an exception. Health cannot be negative.
      *
      * @param damage The amount of damage to apply.
      * @throws DamageException If the damage amount is negative.
      */
-    protected final void takeDamage(final int damage)
+    protected void takeDamage(final int damage)
     {
         if (damage < MIN_DAMAGE_AMOUNT)
         {
             throw new DamageException("Damage cannot be negative");
         }
 
-        // Ensure health doesn't drop below the minimum allowable HP.
+        // Ensure health doesn't drop below MIN_HEALTH_AMOUNT.
         this.healthPoints = Math.min(this.healthPoints - damage, MIN_HEALTH_AMOUNT);
     }
 

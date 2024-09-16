@@ -5,23 +5,26 @@
 public class Orc extends Creature
 {
     // Orc-specific constants for health and attack properties.
-    private static final int ORC_MAX_HP             = 150;
-    private static final int ORC_ATTACK_DAMAGE      = 15;
-    private static final String ORC_ATTACK_NAME     = "berserk";
+    private static final int ORC_MAX_HP              = 150;
+    private static final int ORC_ATTACK_DAMAGE       = 15;
+    private static final String ORC_ATTACK_NAME      = "berserk";
 
     // Orc-specific rage attributes to control damage escalation.
-    private static final int ORC_DEFAULT_RAGE       = 0;
-    private static final int ORC_RAGE_INCREMENT     = 5;
-    private static final int RAGE_BONUS_TIER_ONE    = 10;
-    private static final int RAGE_BONUS_TIER_TWO    = 20;
-    private static final int RAGE_DOUBLE_DAMAGE     = 2;
-    private static final int RAGE_TRIPLE_DAMAGE     = 3;
+    private static final int ORC_MIN_RAGE            = 0;
+    private static final int ORC_RAGE_INCREMENT      = 5;
+    private static final int RAGE_BONUS_TIER_ONE     = 10;
+    private static final int RAGE_BONUS_TIER_TWO     = 20;
+    private static final int RAGE_DOUBLE_DAMAGE      = 2;
+    private static final int RAGE_TRIPLE_DAMAGE      = 3;
+    private static final int BERSERK_MIN_RAGE        = 5;
+
+    private static final int MEDITATE_RAGE_REDUCTION = 10;
 
     // Orc's rage level
     private int rage;
 
     /**
-     * Constructs a new Orc with a specified name and birthdate. The Orc starts with {@value ORC_MAX_HP} health and {@value ORC_DEFAULT_RAGE} rage.
+     * Constructs a new Orc with a specified name and birthdate. The Orc starts with {@value ORC_MAX_HP} health and {@value ORC_MIN_RAGE} rage.
      *
      * @param name The name of the Orc.
      * @param birthday The Orc's birthdate.
@@ -29,8 +32,21 @@ public class Orc extends Creature
     public Orc(final String name, final Date birthday)
     {
         super(name, birthday);
-        this.rage = ORC_DEFAULT_RAGE;
+        this.rage = ORC_MIN_RAGE;
         this.setHealthPoints(ORC_MAX_HP);
+    }
+
+    /**
+     * Overrides the default takeDamage to add the unique Orc feature of incrementing
+     * rage by {@value ORC_RAGE_INCREMENT} whenever it takes damage.
+     *
+     * @param damage The amount of damage to apply.
+     */
+    @Override
+    protected void takeDamage(final int damage)
+    {
+        super.takeDamage(damage);
+        this.rage += ORC_RAGE_INCREMENT;
     }
 
     /**
@@ -39,9 +55,15 @@ public class Orc extends Creature
      * the attack deals {@value RAGE_DOUBLE_DAMAGE} times damage.
      *
      * @param targetCreature The creature that is being attacked.
+     * @throws LowRageException if rage is less than {@value BERSERK_MIN_RAGE}
      */
-    protected final void berserk(final Creature targetCreature)
+    protected final void berserk(final Creature targetCreature) throws LowRageException
     {
+        if(rage < BERSERK_MIN_RAGE)
+        {
+            throw new LowRageException("Not enough rage to go berserk");
+        }
+
         rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
 
         if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
@@ -64,18 +86,40 @@ public class Orc extends Creature
                     ORC_ATTACK_NAME,
                     ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
         }
-        else // rage boosted attack second tier
+        else // rage boosted attack second tier (costs RAGE_BONUS_TIER_TWO rage)
         {
             targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
-            this.takeDamage(ORC_ATTACK_DAMAGE);
+            this.takeDamage(ORC_ATTACK_DAMAGE); // self damage
+
+            this.rage = Math.min(this.rage - RAGE_BONUS_TIER_TWO, ORC_MIN_RAGE);
 
             System.out.printf("%s entered a blinding rage. Damage greatly increased, but also hurts itself\n", this.getName());
-            System.out.printf("%s attacks %s with %s for %d damage\n",
+            System.out.printf("%s wildly attacks %s with %s for %d damage. %s takes %d damage in its rage.\n",
                     this.getName(),
                     targetCreature.getName(),
                     ORC_ATTACK_NAME,
-                    ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
+                    ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE,
+                    this.getName(),
+                    ORC_ATTACK_DAMAGE);
         }
+    }
+
+    /**
+     * The Orc enters a bloodlust, increasing its rage by {@value ORC_RAGE_INCREMENT}
+     * Helpful if the Orc doesn't have enough rage to use berserk.
+     */
+    protected final void bloodlust()
+    {
+        this.rage += ORC_RAGE_INCREMENT;
+    }
+
+    /**
+     * The Orc meditates to calm its rage, decreasing its rage by {@value MEDITATE_RAGE_REDUCTION}
+     * Helpful if the Orc doesn't want to inflict self-damage with higher tiers of rage bonus
+     */
+    protected final void meditate()
+    {
+        this.rage = Math.max(this.rage - MEDITATE_RAGE_REDUCTION, ORC_MIN_RAGE);
     }
 
     /**
@@ -104,4 +148,5 @@ public class Orc extends Creature
     {
         return this.rage;
     }
+
 }

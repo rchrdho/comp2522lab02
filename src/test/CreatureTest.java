@@ -1,28 +1,22 @@
 public class CreatureTest
 {
     public static void main(final String[] args)
-            throws LowFirePowerException, LowManaException, LowRageException
     {
+        Date birthday;
 
         Creature defaultCreature;
         Dragon smaug;
         Elf legolas;
         Orc azog;
-        Date defaultCreatureBirthday;
-        Date legolasBirthday;
-        Date azogBirthday;
-        Date smaugBirthday;
 
-        smaugBirthday = new Date(1800, 2, 22);
-        azogBirthday = new Date(1890, 3, 14);
-        legolasBirthday = new Date(1800, 7, 13);
-        defaultCreatureBirthday = new Date(1989, 06, 25);
 
-        smaug = new Dragon("Smaug", smaugBirthday);  // Firepower added for Dragon
-        azog = new Orc("Azog", azogBirthday);
-        legolas = new Elf("Legolas", legolasBirthday);
+        birthday        = new Date(1800, 2, 22);
 
-        defaultCreature = new Creature("Unnamed Creature", defaultCreatureBirthday);
+        smaug           = new Dragon("Smaug", birthday);
+        azog            = new Orc("Azog", birthday);
+        legolas         = new Elf("Legolas", birthday);
+
+        defaultCreature = new Creature("Unnamed Creature", birthday);
 
         try
         {
