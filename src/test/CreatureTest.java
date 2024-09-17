@@ -196,5 +196,8 @@ public class CreatureTest
         gregg.setHealthPoints(10);
         shagrat.berserk(gregg);
         gregg.getDetails();
+
+        shagrat.setHealthPoints(0);
+        shagrat.berserk(gregg);
     }
 }

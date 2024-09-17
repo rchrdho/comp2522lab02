@@ -54,6 +54,7 @@ public class Orc extends Creature
 
     /**
      * Executes the Orc's berserk attack on the target creature.
+     * If the Orc healthpoints == 0, it cannot act and a message will be printed instead.
      * As the Orc attacks, its rage increases. If the rage reaches or exceeds {@value RAGE_BONUS_TIER_ONE},
      * the attack deals {@value RAGE_DOUBLE_DAMAGE} times damage.
      *
@@ -63,62 +64,85 @@ public class Orc extends Creature
     protected final void berserk(final Creature targetCreature)
             throws LowRageException
     {
-        try {
-            if (rage < BERSERK_MIN_RAGE) {
-                throw new LowRageException("Not enough rage to go berserk");
-            }
+        if(this.isAlive())
+        {
+            try {
+                this.validateRage();
 
-            rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
+                rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
 
-            if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
-            {
-                targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
-                System.out.printf("%s attacks %s with %s for %d damage\n",
-                        this.getName(),
-                        targetCreature.getName(),
-                        ORC_ATTACK_NAME,
-                        ORC_ATTACK_DAMAGE);
-            } else if (rage <= RAGE_BONUS_TIER_TWO) // rage boosted attack first tier
-            {
-                targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
+                if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
+                {
+                    targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
+                    System.out.printf("%s attacks %s with %s for %d damage\n",
+                            this.getName(),
+                            targetCreature.getName(),
+                            ORC_ATTACK_NAME,
+                            ORC_ATTACK_DAMAGE);
+                } else if (rage <= RAGE_BONUS_TIER_TWO) // rage boosted attack first tier
+                {
+                    targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
 
-                System.out.printf("%s is enraged and dealing double damage!\n", this.getName());
-                System.out.printf("%s attacks %s with %s for %d damage\n",
-                        this.getName(),
-                        targetCreature.getName(),
-                        ORC_ATTACK_NAME,
-                        ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
-            } else // rage boosted attack second tier (costs RAGE_BONUS_TIER_TWO rage)
-            {
-                targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
-                this.takeDamage(ORC_ATTACK_DAMAGE); // self damage
+                    System.out.printf("%s is enraged and dealing double damage!\n", this.getName());
+                    System.out.printf("%s attacks %s with %s for %d damage\n",
+                            this.getName(),
+                            targetCreature.getName(),
+                            ORC_ATTACK_NAME,
+                            ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
+                } else // rage boosted attack second tier (costs RAGE_BONUS_TIER_TWO rage)
+                {
+                    targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
+                    this.takeDamage(ORC_ATTACK_DAMAGE); // self damage
 
-                this.rage = Math.min(this.rage - RAGE_BONUS_TIER_TWO, ORC_MIN_RAGE);
+                    this.rage = Math.min(this.rage - RAGE_BONUS_TIER_TWO, ORC_MIN_RAGE);
 
-                System.out.printf("%s is in a blinding rage. Damage tripled, but also hurts itself\n", this.getName());
-                System.out.printf("%s wildly attacks %s with %s for %d damage. %s takes %d damage in its rage.\n",
-                        this.getName(),
-                        targetCreature.getName(),
-                        ORC_ATTACK_NAME,
-                        ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE,
-                        this.getName(),
-                        ORC_ATTACK_DAMAGE);
+                    System.out.printf("%s is in a blinding rage. Damage tripled, but also hurts itself\n", this.getName());
+                    System.out.printf("%s wildly attacks %s with %s for %d damage. %s takes %d damage in its rage.\n",
+                            this.getName(),
+                            targetCreature.getName(),
+                            ORC_ATTACK_NAME,
+                            ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE,
+                            this.getName(),
+                            ORC_ATTACK_DAMAGE);
+                }
+            } catch (LowRageException e) {
+                System.out.println(e.getMessage());
             }
         }
-        catch (LowRageException e)
+        else // this.isAlive == false
         {
-            System.out.println(e.getMessage());
+            System.out.printf("%s is dead and cannot act!\n", this.getName());
+        }
+    }
+
+    /**
+     * Checks if rage is above BERSERK_MIN_RAGE. Throws an exception if it's not.
+     * @throws LowRageException
+     */
+    private void validateRage()
+            throws LowRageException
+    {
+        if (rage < BERSERK_MIN_RAGE) {
+            throw new LowRageException("Not enough rage to go berserk");
         }
     }
 
     /**
      * The Orc enters a bloodlust, increasing its rage by {@value ORC_RAGE_INCREMENT}
      * Helpful if the Orc doesn't have enough rage to use berserk.
+     * Checks if the Orc is alive and allows the action or prints a message accordingly.
      */
     protected final void bloodlust()
     {
-        this.rage += ORC_RAGE_INCREMENT;
-        System.out.printf("%s enters a bloodlust. Rage increases\n", this.getName());
+        if(this.isAlive())
+        {
+            this.rage += ORC_RAGE_INCREMENT;
+            System.out.printf("%s enters a bloodlust. Rage increases\n", this.getName());
+        }
+        else
+        {
+            System.out.printf("%s is dead and cannot act!\n", this.getName());
+        }
     }
 
     /**
@@ -127,11 +151,17 @@ public class Orc extends Creature
      */
     protected final void meditate()
     {
-        this.rage = Math.max(this.rage - MEDITATE_RAGE_REDUCTION, ORC_MIN_RAGE);
-        System.out.printf("%s starts to meditate, reducing rage by %d.\nRage: %d\n",
-                this.getName(),
-                MEDITATE_RAGE_REDUCTION,
-                this.getRage());
+        if(this.isAlive()) {
+            this.rage = Math.max(this.rage - MEDITATE_RAGE_REDUCTION, ORC_MIN_RAGE);
+            System.out.printf("%s starts to meditate, reducing rage by %d.\nRage: %d\n",
+                    this.getName(),
+                    MEDITATE_RAGE_REDUCTION,
+                    this.getRage());
+        }
+        else
+        {
+            System.out.printf("%s is dead and cannot act!\n", this.getName());
+        }
     }
 
     /**
@@ -161,7 +191,8 @@ public class Orc extends Creature
         return this.rage;
     }
 
-    public void setRage(int newRage)
+    /* package private for testing, unavailable outside the package */
+    void setRage(int newRage)
     {
         this.rage = newRage;
     }

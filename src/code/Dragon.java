@@ -51,38 +51,42 @@ public class Dragon extends Creature
     protected final void breatheFire(final Creature targetCreature)
             throws LowFirePowerException
     {
+        if(this.isAlive()) {
+            this.validateBreatheFire();
 
-        validateBreatheFire(this.firePower);
+            targetCreature.takeDamage(DRAGON_ATTACK_DAMAGE);
 
-        targetCreature.takeDamage(DRAGON_ATTACK_DAMAGE);
+            System.out.printf("%s attacks %s with %s for %d damage\n",
+                    this.getName(),
+                    targetCreature.getName(),
+                    DRAGON_ATTACK_NAME,
+                    DRAGON_ATTACK_DAMAGE);
 
-        System.out.printf("%s attacks %s with %s for %d damage\n",
-                this.getName(),
-                targetCreature.getName(),
-                DRAGON_ATTACK_NAME,
-                DRAGON_ATTACK_DAMAGE);
-
-        // Reduce firePower by FIRE_POWER_COST after breathFire or set to 0 if firePower would be negative
-        this.firePower = Math.max(this.firePower - FIRE_POWER_COST, MIN_FIRE_POWER);
-        System.out.printf("Fire Power: %d/%d\n",
-                firePower,
-                MAX_FIRE_POWER);
+            // Reduce firePower by FIRE_POWER_COST after breathFire or set to 0 if firePower would be negative
+            this.firePower = Math.max(this.firePower - FIRE_POWER_COST, MIN_FIRE_POWER);
+            System.out.printf("Fire Power: %d/%d\n",
+                    firePower,
+                    MAX_FIRE_POWER);
+        }
+        else
+        {
+            System.out.printf("%s is dead and cannot act!", this.getName());
+        }
     }
 
     /**
      * Validates the Dragon's firePower before attempting to breathe fire.
      *
-     * @param firePower                 The current firePower of the Dragon.
      * @throws LowFirePowerException    if the firePower is below the required threshold for breathing fire.
      */
-    private static void validateBreatheFire(int firePower)
+    private void validateBreatheFire()
             throws LowFirePowerException
     {
-        if(firePower < FIRE_POWER_COST)
+        if(this.firePower < FIRE_POWER_COST)
         {
             throw new LowFirePowerException(
                     String.format("Unable to cast. Current fire power is: %d\n",
-                    firePower));
+                    this.firePower));
         }
     }
 
@@ -93,13 +97,21 @@ public class Dragon extends Creature
      */
     protected final void restoreFirePower()
     {
-        this.firePower = Math.min(this.firePower + FIRE_POWER_RESTORE_AMOUNT, MAX_FIRE_POWER);
+        if(this.isAlive())
+        {
+            this.firePower = Math.min(this.firePower + FIRE_POWER_RESTORE_AMOUNT, MAX_FIRE_POWER);
 
-        System.out.printf("%s used restore Fire Power\n",
-                this.getName());
+            System.out.printf("%s used restore Fire Power\n",
+                    this.getName());
+        }
+        else
+        {
+            System.out.printf("%s is dead and cannot act!", this.getName());
+        }
     }
 
-    public void setFirePower(int newFirePower)
+    /* package private for testing, unavailable outside the package */
+    void setFirePower(int newFirePower)
     {
         firePower = newFirePower;
     }

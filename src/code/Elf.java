@@ -49,16 +49,23 @@ public class Elf extends Creature
     protected final void arcaneBolt(final Creature targetCreature)
             throws LowManaException
     {
-        validateManaUsage();
+        if(this.isAlive())
+        {
+            this.validateManaUsage();
 
-        this.mana = Math.max(this.mana - ELF_MANA_COST, ELF_MIN_MANA);
+            this.mana = Math.max(this.mana - ELF_MANA_COST, ELF_MIN_MANA);
 
-        targetCreature.takeDamage(ELF_ATTACK_DAMAGE);
-        System.out.printf("%s attacks %s with %s for %d damage\n",
-                this.getName(),
-                targetCreature.getName(),
-                ELF_ATTACK_NAME,
-                ELF_ATTACK_DAMAGE);
+            targetCreature.takeDamage(ELF_ATTACK_DAMAGE);
+            System.out.printf("%s attacks %s with %s for %d damage\n",
+                    this.getName(),
+                    targetCreature.getName(),
+                    ELF_ATTACK_NAME,
+                    ELF_ATTACK_DAMAGE);
+        }
+        else
+        {
+            System.out.printf("%s is dead and cannot act!", this.getName());
+        }
     }
 
     /**
@@ -81,12 +88,19 @@ public class Elf extends Creature
      */
     public void restoreMana()
     {
-        this.mana = Math.min(this.mana + ELF_MANA_RESTORE_AMOUNT, ELF_MAX_MANA);
-        System.out.printf("%s restores %d mana.\nMana: %d/%d\n",
-                this.getName(),
-                ELF_MANA_RESTORE_AMOUNT,
-                this.getMana(),
-                ELF_MAX_MANA);
+        if(this.isAlive())
+        {
+            this.mana = Math.min(this.mana + ELF_MANA_RESTORE_AMOUNT, ELF_MAX_MANA);
+            System.out.printf("%s restores %d mana.\nMana: %d/%d\n",
+                    this.getName(),
+                    ELF_MANA_RESTORE_AMOUNT,
+                    this.getMana(),
+                    ELF_MAX_MANA);
+        }
+        else
+        {
+            System.out.printf("%s is dead and cannot act!", this.getName());
+        }
     }
 
     /**
@@ -100,12 +114,17 @@ public class Elf extends Creature
         System.out.printf("Mana: %d/%d\n", mana, ELF_MAX_MANA);
     }
 
+    /**
+     * Returns the current mana of this elf.
+     * @return int of current mana
+     */
     public int getMana()
     {
         return this.mana;
     }
 
-    public void setMana(int mana)
+    /* package private for testing, unavailable outside the package */
+    void setMana(int mana)
     {
         this.mana = mana;
     }
