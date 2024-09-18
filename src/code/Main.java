@@ -4,7 +4,6 @@ public class Main
         Date today = new Date(1989, 06, 25);
         Creature creature = new Creature("hello", today);
         Orc Azog = new Orc("Azog", today);
-        Dragon Smaug = new Dragon("Smaug", today, 200);
-
+        Dragon Smaug = new Dragon("Smaug", today);
     }
 }

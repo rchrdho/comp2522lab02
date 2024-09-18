@@ -2,6 +2,7 @@ public class Dragon extends Creature
 {
     // Symbolic Constants
     private static final int    MIN_FIRE_POWER              = 0;
+    private static final int    MAX_FIRE_POWER              = 100;
     private static final int    DRAGON_MAX_HP               = 500;
     private static final int    FIRE_POWER_COST             = 10;
     private static final int    DRAGON_ATTACK_DAMAGE        = 20;
@@ -10,8 +11,6 @@ public class Dragon extends Creature
 
     // Instance variable
     private int firePower;
-    private int maxFirePower;
-
 
     /**
      * Constructs a Dragon creature.
@@ -21,14 +20,12 @@ public class Dragon extends Creature
      * @throws IllegalArgumentException If name is null or empty
      */
     public Dragon(final String  dragonName,
-                  final Date    dragonBirthDate,
-                  final int     maxFirePower)
+                  final Date    dragonBirthDate)
             throws IllegalArgumentException
     {
         super(dragonName, dragonBirthDate);
 
-        this.maxFirePower = maxFirePower;
-        this.firePower = maxFirePower;
+        this.firePower = MAX_FIRE_POWER;
         this.setHealthPoints(DRAGON_MAX_HP);
     }
 
@@ -42,7 +39,7 @@ public class Dragon extends Creature
 
         System.out.printf("Fire Power: %d/%d\n",
                 firePower,
-                maxFirePower);
+                MAX_FIRE_POWER);
     }
 
     /**
@@ -69,7 +66,7 @@ public class Dragon extends Creature
             this.firePower = Math.max(this.firePower - FIRE_POWER_COST, MIN_FIRE_POWER);
             System.out.printf("Fire Power: %d/%d\n",
                     firePower,
-                    maxFirePower);
+                    MAX_FIRE_POWER);
         }
         else
         {
@@ -102,7 +99,7 @@ public class Dragon extends Creature
     {
         if(this.isAlive())
         {
-            this.firePower = Math.min(this.firePower + FIRE_POWER_RESTORE_AMOUNT, this.maxFirePower);
+            this.firePower = Math.min(this.firePower + FIRE_POWER_RESTORE_AMOUNT, MAX_FIRE_POWER);
 
             System.out.printf("%s used restore Fire Power\n",
                     this.getName());

@@ -55,7 +55,7 @@ public class CreatureTest
         // successfully execute each method, then catch LowFirePowerException
         try
         {
-            smaug           = new Dragon("Smaug", birthday, 500);
+            smaug           = new Dragon("Smaug", birthday);
             if (smaug instanceof Dragon)
             {
                 System.out.println("\nDragon Details:");
@@ -82,7 +82,7 @@ public class CreatureTest
         // Catch null birthday
         try
         {
-            Dragon glaurung = new Dragon(null, birthday, 500);
+            Dragon glaurung = new Dragon(null, birthday);
         }
         catch (IllegalArgumentException e)
         {
@@ -92,7 +92,7 @@ public class CreatureTest
         // Catch empty birthday
         try
         {
-            Dragon encalagon = new Dragon("", birthday,300);
+            Dragon encalagon = new Dragon("", birthday);
         }
         catch (IllegalArgumentException e)
         {
