@@ -46,7 +46,7 @@ public class Elf extends Creature
      * @param targetCreature Creature to receive damage
      * @throws LowManaException If the elf's mana is less than ELF_LOWEST_MANA_USAGE
      */
-    protected final void arcaneBolt(final Creature targetCreature)
+    void attack(final Creature targetCreature)
             throws LowManaException
     {
         if(this.isAlive())

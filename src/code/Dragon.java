@@ -48,7 +48,7 @@ public class Dragon extends Creature
      * @param targetCreature         The target creature to attack.
      * @throws LowFirePowerException If the Dragon's firePower is too low to attack.
      */
-    protected final void breatheFire(final Creature targetCreature)
+    void attack(final Creature targetCreature)
             throws LowFirePowerException
     {
         if(this.isAlive()) {

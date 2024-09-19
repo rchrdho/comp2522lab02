@@ -1,55 +1,17 @@
-import javax.swing.plaf.synth.SynthTextAreaUI;
-
 public class CreatureTest
 {
     public static void main(final String[] args)
     {
         Date birthday;
 
-        Creature greg;
-        Creature gregg;
+        Orc gregg;
         Dragon smaug;
         Elf legolas;
         Orc azog;
 
         birthday = new Date(1800, 2, 22);
-        gregg = new Creature("gregg", birthday);
+        gregg = new Orc("Gregg", birthday);
 
-        System.out.println("Creature Tests");
-        // Successfully instance a Creature and execute its methods
-        try
-        {
-            greg = new Creature("greg", birthday);
-            if (greg instanceof Creature)
-            {
-                System.out.println("\nCreature Details:");
-                greg.getDetails();
-            }
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println(e.getMessage());
-        }
-
-        // Catch null name
-        try
-        {
-            Creature steve = new Creature(null, birthday);
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println(e.getMessage());
-        }
-
-        // Catch empty name
-        try
-        {
-            Creature mike = new Creature("", birthday);
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println(e.getMessage());
-        }
 
         System.out.println("Dragon Tests");
         // successfully execute each method, then catch LowFirePowerException
@@ -60,14 +22,14 @@ public class CreatureTest
             {
                 System.out.println("\nDragon Details:");
                 smaug.getDetails();
-                smaug.breatheFire(gregg);
+                smaug.attack(gregg);
                 smaug.setFirePower(0);
                 smaug.getDetails();
                 smaug.restoreFirePower();
                 smaug.getDetails();
                 smaug.setFirePower(0);
                 smaug.getDetails();
-                smaug.breatheFire(gregg);
+                smaug.attack(gregg);
             }
         }
         catch (LowFirePowerException e)
@@ -77,6 +39,8 @@ public class CreatureTest
         catch (IllegalArgumentException e)
         {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         // Catch null birthday
@@ -108,18 +72,18 @@ public class CreatureTest
                 System.out.println("\nOrc Details:");
                 azog.getDetails();
                 azog.bloodlust();
-                azog.berserk(gregg);
-                azog.berserk(gregg);
-                azog.berserk(gregg);
-                azog.berserk(gregg);
+                azog.attack(gregg);
+                azog.attack(gregg);
+                azog.attack(gregg);
+                azog.attack(gregg);
                 azog.getDetails();
                 azog.meditate();
-                azog.berserk(gregg);
-                azog.berserk(gregg);
-                azog.berserk(gregg);
+                azog.attack(gregg);
+                azog.attack(gregg);
+                azog.attack(gregg);
                 azog.getDetails();
                 azog.meditate();
-                azog.berserk(gregg);
+                azog.attack(gregg);
             }
         }
         catch (LowRageException e)
@@ -129,6 +93,8 @@ public class CreatureTest
         catch (IllegalArgumentException e)
         {
             System.out.println("Name cannot be null or empty");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         try
@@ -158,15 +124,15 @@ public class CreatureTest
             {
                 System.out.println("Elf Details:");
                 legolas.getDetails();
-                legolas.arcaneBolt(gregg);
+                legolas.attack(gregg);
                 legolas.getDetails();
                 legolas.setMana(0);
                 legolas.getDetails();
                 legolas.restoreMana();
-                legolas.arcaneBolt(gregg);
+                legolas.attack(gregg);
                 legolas.setMana(0);
                 legolas.getDetails();
-                legolas.arcaneBolt(gregg);
+                legolas.attack(gregg);
             }
         } catch (LowManaException e)
         {
@@ -194,10 +160,18 @@ public class CreatureTest
 
         Orc shagrat = new Orc("Shagrat", birthday);
         gregg.setHealthPoints(10);
-        shagrat.berserk(gregg);
+        try {
+            shagrat.attack(gregg);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         gregg.getDetails();
 
         shagrat.setHealthPoints(0);
-        shagrat.berserk(gregg);
+        try {
+            shagrat.attack(gregg);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

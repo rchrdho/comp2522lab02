@@ -46,7 +46,7 @@ public class Orc extends Creature
      * @param damage The amount of damage to apply.
      */
     @Override
-    protected void takeDamage(final int damage)
+    void takeDamage(final int damage)
     {
         super.takeDamage(damage);
         this.rage += ORC_RAGE_INCREMENT;
@@ -61,7 +61,7 @@ public class Orc extends Creature
      * @param targetCreature The creature that is being attacked.
      * @throws LowRageException if rage is less than {@value BERSERK_MIN_RAGE}
      */
-    protected final void berserk(final Creature targetCreature)
+    void attack(final Creature targetCreature)
             throws LowRageException
     {
         if(this.isAlive())

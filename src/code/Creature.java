@@ -2,7 +2,7 @@
  * The Creature class models a basic creature with a name, date of birth, and health points (HP).
  * It provides methods to handle damage, healing, and basic stats information.
  */
-public class Creature
+public abstract class Creature
 {
     // Constants to define health boundaries for creatures.
     private static final int CREATURE_MAX_HP = 500;
@@ -50,6 +50,8 @@ public class Creature
         }
     }
 
+    abstract void attack(Creature targetCreature) throws Exception;
+
     /**
      * Reduces the creature's health points by the specified damage amount.
      * If damage is negative, throws an exception. Health cannot be negative.
@@ -57,14 +59,15 @@ public class Creature
      * @param damage The amount of damage to apply.
      * @throws DamageException If the damage amount is negative.
      */
-    protected void takeDamage(final int damage)
+    void takeDamage(final int damage)
     {
         if (damage < MIN_DAMAGE_AMOUNT)
         {
             throw new DamageException("Damage cannot be negative");
         }
 
-        // Ensure health doesn't drop below MIN_HEALTH_AMOUNT.
+        /* Ensure health doesn't drop below MIN_HEALTH_AMOUNT by selecting the larger between
+        (current health - incoming damage) OR MIN_HEALTH_AMOUNT */
         this.healthPoints = Math.max(this.healthPoints - damage, MIN_HEALTH_AMOUNT);
     }
 
@@ -102,7 +105,7 @@ public class Creature
      *
      * @return true if the creature is alive, false otherwise.
      */
-    protected final boolean isAlive()
+    final boolean isAlive()
     {
         return this.healthPoints > CREATURE_MIN_HP;
     }
