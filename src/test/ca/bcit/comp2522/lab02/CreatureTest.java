@@ -1,3 +1,16 @@
+package ca.bcit.comp2522.lab02;
+
+/**
+ * The CreatureTest class provides a series of test cases for various Creature subclasses, including
+ * Dragon, Orc, Elf, and Healer. It tests creature creation, attribute manipulation, and exception handling
+ * such as LowFirePowerException and IllegalArgumentException, ensuring correct behavior for attacks,
+ * healing, and other unique abilities.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
+ */
 public class CreatureTest
 {
     public static void main(final String[] args)

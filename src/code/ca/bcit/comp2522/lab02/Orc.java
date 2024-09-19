@@ -1,6 +1,13 @@
+package ca.bcit.comp2522.lab02;
+
 /**
  * The Orc class is a subclass of Creature, representing a specific type of creature with unique attributes such as rage.
  * Orcs have higher maximum HP than regular creatures and a special "berserk" attack that increases in damage as their rage builds.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
  */
 public class Orc extends Creature
 {
@@ -17,7 +24,6 @@ public class Orc extends Creature
     private static final int RAGE_DOUBLE_DAMAGE      = 2;
     private static final int RAGE_TRIPLE_DAMAGE      = 3;
     private static final int BERSERK_MIN_RAGE        = 5;
-
     private static final int MEDITATE_RAGE_REDUCTION = 10;
 
     // Orc's rage level

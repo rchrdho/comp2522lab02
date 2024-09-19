@@ -1,3 +1,5 @@
+package ca.bcit.comp2522.lab02;
+
 /**
  * <pre>
  * The Date class represents a specific calendar date, including day, month, and year, with validation and leap year handling.

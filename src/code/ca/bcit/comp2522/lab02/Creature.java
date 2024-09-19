@@ -1,7 +1,13 @@
 package ca.bcit.comp2522.lab02;
+
 /**
  * The Creature class models a basic creature with a name, date of birth, and health points (HP).
  * It provides methods to handle damage, healing, and basic stats information.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
  */
 public abstract class Creature
 {
@@ -13,7 +19,11 @@ public abstract class Creature
     private static final int MIN_HEALTH_AMOUNT = 0;
     private static final int MIN_DAMAGE_AMOUNT = 0;
 
-    static final int MIN_HEAL_AMOUNT           = 0;
+    private static final int MIN_HEAL_AMOUNT   = 0;
+
+    private static final int HEAL_UPPER_BOUND = 100;
+    private static final int HEAL_OFFSET      = 10;
+    private static final int RANDOM_OFFSET    = 1;
 
     // Creature's unique attributes.
     private final String name;
@@ -100,7 +110,7 @@ public abstract class Creature
     {
         int healAmount;
 
-        healAmount = (int)(Math.random() * (100 - 10 + 1)) + 10;
+        healAmount = (int)(Math.random() * (HEAL_UPPER_BOUND - HEAL_OFFSET + RANDOM_OFFSET)) + HEAL_OFFSET;
         validateHealAmount(healAmount);
 
         // choose the lesser of (current health points + heal amount) OR CREATURE_MAX_HP
