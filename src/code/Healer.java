@@ -1,3 +1,5 @@
+package ca.bcit.comp2522.lab02;
+
 public class Healer extends Creature
 {
     private static final int HEALER_MAX_HP        = 100;

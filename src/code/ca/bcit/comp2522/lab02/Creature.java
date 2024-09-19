@@ -1,3 +1,4 @@
+package ca.bcit.comp2522.lab02;
 /**
  * The Creature class models a basic creature with a name, date of birth, and health points (HP).
  * It provides methods to handle damage, healing, and basic stats information.

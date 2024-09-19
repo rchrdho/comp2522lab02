@@ -71,7 +71,8 @@ public class Orc extends Creature
     {
         if(this.isAlive())
         {
-            try {
+            try
+            {
                 this.validateRage();
 
                 rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
@@ -112,7 +113,9 @@ public class Orc extends Creature
                             this.getName(),
                             ORC_ATTACK_DAMAGE);
                 }
-            } catch (LowRageException e) {
+            }
+            catch (LowRageException e)
+            {
                 System.out.println(e.getMessage());
             }
         }
@@ -131,7 +134,8 @@ public class Orc extends Creature
     private void validateRage()
             throws LowRageException
     {
-        if (rage < BERSERK_MIN_RAGE) {
+        if (rage < BERSERK_MIN_RAGE)
+        {
             throw new LowRageException("Not enough rage to go berserk");
         }
     }
@@ -160,8 +164,11 @@ public class Orc extends Creature
      */
     protected final void meditate()
     {
-        if(this.isAlive()) {
+        if(this.isAlive())
+        {
+
             this.rage = Math.max(this.rage - MEDITATE_RAGE_REDUCTION, ORC_MIN_RAGE);
+
             System.out.printf("%s starts to meditate, reducing rage by %d.\nRage: %d\n",
                     this.getName(),
                     MEDITATE_RAGE_REDUCTION,
@@ -199,11 +206,4 @@ public class Orc extends Creature
     {
         return this.rage;
     }
-
-    /* package private for testing, unavailable outside the package */
-    void setRage(int newRage)
-    {
-        this.rage = newRage;
-    }
-
 }
