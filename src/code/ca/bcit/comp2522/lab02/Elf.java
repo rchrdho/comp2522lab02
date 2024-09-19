@@ -127,8 +127,8 @@ public class Elf extends Creature
         return this.mana;
     }
 
-    /* package private for testing, unavailable outside the package */
-    void setMana(int mana)
+    /* for testing, unavailable outside the package or class */
+    protected final void setMana(final int mana)
     {
         this.mana = mana;
     }

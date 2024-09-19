@@ -28,8 +28,8 @@ public class Healer extends Creature
      * @param name
      * @param birthday
      */
-    public Healer(String name,
-                  Date birthday)
+    public Healer(final String name,
+                  final Date birthday)
     {
         super(name, birthday, HEALER_MAX_HP);
 

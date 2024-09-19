@@ -22,46 +22,46 @@ package ca.bcit.comp2522.lab02;
  */
 public class Date
 {
-    private static final int SATURDAY                       = 0;
-    private static final int SUNDAY                         = 1;
-    private static final int MONDAY                         = 2;
-    private static final int TUESDAY                        = 3;
-    private static final int WEDNESDAY                      = 4;
-    private static final int THURSDAY                       = 5;
-    private static final int FRIDAY                         = 6;
+    private static final int SATURDAY         = 0;
+    private static final int SUNDAY           = 1;
+    private static final int MONDAY           = 2;
+    private static final int TUESDAY          = 3;
+    private static final int WEDNESDAY        = 4;
+    private static final int THURSDAY         = 5;
+    private static final int FRIDAY           = 6;
 
-    private static final int DAYS_IN_WEEK                   = 7;
-    private static final int DAY_MIN                        = 1;
+    private static final int DAYS_IN_WEEK     = 7;
+    private static final int DAY_MIN          = 1;
 
-    private static final int JANUARY                        = 1;
-    private static final int FEBRUARY                       = 2;
-    private static final int MARCH                          = 3;
-    private static final int APRIL                          = 4;
-    private static final int MAY                            = 5;
-    private static final int JUNE                           = 6;
-    private static final int JULY                           = 7;
-    private static final int AUGUST                         = 8;
-    private static final int SEPTEMBER                      = 9;
-    private static final int OCTOBER                        = 10;
-    private static final int NOVEMBER                       = 11;
-    private static final int DECEMBER                       = 12;
+    private static final int JANUARY          = 1;
+    private static final int FEBRUARY         = 2;
+    private static final int MARCH            = 3;
+    private static final int APRIL            = 4;
+    private static final int MAY              = 5;
+    private static final int JUNE             = 6;
+    private static final int JULY             = 7;
+    private static final int AUGUST           = 8;
+    private static final int SEPTEMBER        = 9;
+    private static final int OCTOBER          = 10;
+    private static final int NOVEMBER         = 11;
+    private static final int DECEMBER         = 12;
 
-    private static final int MONTH_MIN                      = 1;
-    private static final int MONTH_MAX                      = 12;
-    private static final int MONTH_DAYS_31                  = 31;
-    private static final int MONTH_DAYS_30                  = 30;
-    private static final int FEBRUARY_LONG                  = 29;
-    private static final int FEBRUARY_SHORT                 = 28;
+    private static final int MONTH_MIN        = 1;
+    private static final int MONTH_MAX        = 12;
+    private static final int MONTH_DAYS_31    = 31;
+    private static final int MONTH_DAYS_30    = 30;
+    private static final int FEBRUARY_LONG    = 29;
+    private static final int FEBRUARY_SHORT   = 28;
 
-    private static final int MONTH_CODE_0                   = 0;
-    private static final int MONTH_CODE_1                   = 1;
-    private static final int MONTH_CODE_2                   = 2;
-    private static final int MONTH_CODE_3                   = 3;
-    private static final int MONTH_CODE_4                   = 4;
-    private static final int MONTH_CODE_5                   = 5;
-    private static final int MONTH_CODE_6                   = 6;
+    private static final int MONTH_CODE_0     = 0;
+    private static final int MONTH_CODE_1     = 1;
+    private static final int MONTH_CODE_2     = 2;
+    private static final int MONTH_CODE_3     = 3;
+    private static final int MONTH_CODE_4     = 4;
+    private static final int MONTH_CODE_5     = 5;
+    private static final int MONTH_CODE_6     = 6;
 
-    private static final int VALID_YEAR_MIN                 = 1800;
+    private static final int VALID_YEAR_MIN   = 1800;
 
     private static final int WEEK_CODE_LEAP_YEAR_ADJUSTOR   = 6;
     private static final int WEEK_CODE_1800S_ADJUSTOR       = 2;

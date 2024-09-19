@@ -121,8 +121,8 @@ public class Dragon extends Creature
         }
     }
 
-    /* package private for testing, unavailable outside the package */
-    void setFirePower(int newFirePower)
+    /* for testing, unavailable outside the package or class */
+    protected final void setFirePower(final int newFirePower)
     {
         firePower = newFirePower;
     }
