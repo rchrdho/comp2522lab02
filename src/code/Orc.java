@@ -53,9 +53,15 @@ public class Orc extends Creature
 
     /**
      * Executes the Orc's berserk attack on the target creature.
-     * If the Orc healthpoints == 0, it cannot act and a message will be printed instead.
-     * As the Orc attacks, its rage increases. If the rage reaches or exceeds {@value RAGE_BONUS_TIER_ONE},
-     * the attack deals {@value RAGE_DOUBLE_DAMAGE} times damage.
+     *
+     * A new Orc does not have enough rage to attack. It must first use the bloodlust method to generate
+     * enough rage to berserk.
+     *
+     * First checks is the Creature is alive, otherwise prints a eulogy.
+     *
+     * As the Orc berserks, its rage increases by {@value ORC_RAGE_INCREMENT} per attack.
+     * If the rage reaches or exceeds {@value RAGE_BONUS_TIER_ONE}, the attack deals {@value RAGE_DOUBLE_DAMAGE} times damage.
+     * If the rage reaches or exceeds {@value RAGE_BONUS_TIER_TWO}, the attack deals {@value RAGE_TRIPLE_DAMAGE} times damage.
      *
      * @param targetCreature The creature that is being attacked.
      * @throws LowRageException if rage is less than {@value BERSERK_MIN_RAGE}
@@ -70,7 +76,7 @@ public class Orc extends Creature
 
                 rage += ORC_RAGE_INCREMENT; // Increase rage after each attack.
 
-                if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack
+                if (rage < RAGE_BONUS_TIER_ONE) // "normal" attack; rage < RAGE_BONUS_TIER_ONE
                 {
                     targetCreature.takeDamage(ORC_ATTACK_DAMAGE);
                     System.out.printf("%s attacks %s with %s for %d damage\n",
@@ -78,7 +84,8 @@ public class Orc extends Creature
                             targetCreature.getName(),
                             ORC_ATTACK_NAME,
                             ORC_ATTACK_DAMAGE);
-                } else if (rage <= RAGE_BONUS_TIER_TWO) // rage boosted attack first tier
+                }
+                else if (rage <= RAGE_BONUS_TIER_TWO) // Tier one rage bonus
                 {
                     targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
 
@@ -88,7 +95,8 @@ public class Orc extends Creature
                             targetCreature.getName(),
                             ORC_ATTACK_NAME,
                             ORC_ATTACK_DAMAGE * RAGE_DOUBLE_DAMAGE);
-                } else // rage boosted attack second tier (costs RAGE_BONUS_TIER_TWO rage)
+                }
+                else // Tier 2 rage bonus; rage > RAGE_BONUS_TIER_TWO
                 {
                     targetCreature.takeDamage(ORC_ATTACK_DAMAGE * RAGE_TRIPLE_DAMAGE);
                     this.takeDamage(ORC_ATTACK_DAMAGE); // self damage
@@ -110,7 +118,9 @@ public class Orc extends Creature
         }
         else // this.isAlive == false
         {
-            System.out.printf("%s is dead and cannot act!\n", this.getName());
+            System.out.printf("%s is dead and cannot act!\nRIP %s",
+                    this.getName(),
+                    this.getName());
         }
     }
 

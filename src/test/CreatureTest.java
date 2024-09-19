@@ -8,6 +8,7 @@ public class CreatureTest
         Dragon smaug;
         Elf legolas;
         Orc azog;
+        Healer house;
 
         birthday = new Date(1800, 2, 22);
         gregg = new Orc("Gregg", birthday);
@@ -17,10 +18,10 @@ public class CreatureTest
         // successfully execute each method, then catch LowFirePowerException
         try
         {
-            smaug           = new Dragon("Smaug", birthday);
+            smaug = new Dragon("Smaug", birthday);
             if (smaug instanceof Dragon)
             {
-                System.out.println("\nDragon Details:");
+                System.out.printf("\n%s Details: \n", smaug.getClass().getSimpleName());
                 smaug.getDetails();
                 smaug.attack(gregg);
                 smaug.setFirePower(0);
@@ -69,7 +70,7 @@ public class CreatureTest
             azog = new Orc("Azog", birthday);
             if (azog instanceof Orc)
             {
-                System.out.println("\nOrc Details:");
+                System.out.printf("\n%s Details: \n", azog.getClass().getSimpleName());
                 azog.getDetails();
                 azog.bloodlust();
                 azog.attack(gregg);
@@ -122,7 +123,7 @@ public class CreatureTest
 
             if (legolas instanceof Elf)
             {
-                System.out.println("Elf Details:");
+                System.out.printf("%s Details: ", legolas.getClass().getSimpleName());
                 legolas.getDetails();
                 legolas.attack(gregg);
                 legolas.getDetails();
@@ -158,19 +159,41 @@ public class CreatureTest
             System.out.println(e.getMessage());
         }
 
+        // Healer Tests
+        try
+        {
+            house = new Healer("Dr. House", birthday);
+
+            house.getDetails();
+            house.attack(gregg);
+            house.heal(gregg);
+            house.restore();
+
+        }
+        catch (HealingException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
         Orc shagrat = new Orc("Shagrat", birthday);
         gregg.setHealthPoints(10);
-        try {
+        try
+        {
             shagrat.attack(gregg);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
         gregg.getDetails();
 
         shagrat.setHealthPoints(0);
-        try {
+        try
+        {
             shagrat.attack(gregg);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }

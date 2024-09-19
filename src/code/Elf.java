@@ -52,7 +52,8 @@ public class Elf extends Creature
         {
             this.validateManaUsage();
 
-            this.mana = Math.max(this.mana - ELF_MANA_COST, ELF_MIN_MANA);
+            this.mana = Math.max((this.mana - ELF_MANA_COST),
+                                 ELF_MIN_MANA);
 
             targetCreature.takeDamage(ELF_ATTACK_DAMAGE);
             System.out.printf("%s attacks %s with %s for %d damage\n",

@@ -9,9 +9,10 @@ public abstract class Creature
     private static final int CREATURE_MIN_HP = 0;
 
     // Constants for validation of heal and damage amounts.
-    private static final int MIN_HEAL_AMOUNT = 0;
     private static final int MIN_HEALTH_AMOUNT = 0;
     private static final int MIN_DAMAGE_AMOUNT = 0;
+
+    static final int MIN_HEAL_AMOUNT           = 0;
 
     // Creature's unique attributes.
     private final String name;
@@ -51,10 +52,8 @@ public abstract class Creature
         }
     }
 
-    /**
-     *
-     * @param healthPoints
-     * @return
+    /*
+    Validates health points are a positive value.
      */
     private static int validateHealthPoints(final int healthPoints)
     {
@@ -94,24 +93,28 @@ public abstract class Creature
      * Heals the creature by the specified amount.
      * Health cannot exceed {@value CREATURE_MAX_HP}.
      *
-     * @param healAmount The amount of health to restore.
      * @throws HealingException If the heal amount is invalid.
      */
-    private void heal(final int healAmount)
+    void heal(final Creature target) throws HealingException
     {
+        int healAmount;
+
+        healAmount = (int)(Math.random() * (100 - 10 + 1)) + 10;
         validateHealAmount(healAmount);
 
         // choose the lesser of (current health points + heal amount) OR CREATURE_MAX_HP
         this.healthPoints = Math.min(this.healthPoints + healAmount, CREATURE_MAX_HP);
+
+        System.out.printf("%s heals %s for %d.\n",
+                this.getName(),
+                target.getName(),
+                healAmount);
     }
 
-    /**
-     * Validates the heal amount to ensure it is not negative.
-     *
-     * @param healAmount The heal amount to validate.
-     * @throws HealingException If the heal amount is negative.
+    /*
+     * Validates the heal amount to ensure it is not negative. Otherwise, throws Exception.
      */
-    private void validateHealAmount(final int healAmount)
+    private static void validateHealAmount(final int healAmount) throws HealingException
     {
         if (healAmount < MIN_HEAL_AMOUNT)
         {
