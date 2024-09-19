@@ -2,7 +2,9 @@
  * Elf class represents an Elf, which is a subclass of the Creature class.
  * Elf class has additional attributes such as mana, its own health, and can cast spells and restore mana.
  *
- * @author Phyo, Bryson, Richard
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
  * @version 1.0
  */
 public class Elf extends Creature

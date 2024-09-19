@@ -1,6 +1,11 @@
 /**
  * The Creature class models a basic creature with a name, date of birth, and health points (HP).
  * It provides methods to handle damage, healing, and basic stats information.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
  */
 public abstract class Creature
 {

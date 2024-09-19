@@ -1,6 +1,11 @@
 /**
  * The Orc class is a subclass of Creature, representing a specific type of creature with unique attributes such as rage.
  * Orcs have higher maximum HP than regular creatures and a special "berserk" attack that increases in damage as their rage builds.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
  */
 public class Orc extends Creature
 {

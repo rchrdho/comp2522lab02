@@ -1,3 +1,13 @@
+/**
+ * The Dragon class extends Creature, adding unique attributes like firePower and the ability to "breathe fire".
+ * It manages firePower depletion during attacks and allows restoration, with defined bounds for firePower, health,
+ * and attack damage.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
+ */
 public class Dragon extends Creature
 {
     // Symbolic Constants

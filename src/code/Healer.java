@@ -1,3 +1,13 @@
+/**
+ * The Healer class extends Creature, introducing the ability to restore health using mana.
+ * It manages mana depletion during healing actions and allows for mana restoration, with
+ * defined limits for health, mana, and minimal attack damage.
+ *
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ * @author Richard Ho
+ * @version 1.0
+ */
 public class Healer extends Creature
 {
     private static final int HEALER_MAX_HP        = 100;
@@ -16,7 +26,8 @@ public class Healer extends Creature
      * @param name
      * @param birthday
      */
-    public Healer(String name, Date birthday)
+    public Healer(String name,
+                  Date birthday)
     {
         super(name, birthday, HEALER_MAX_HP);
 
