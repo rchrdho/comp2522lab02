@@ -34,9 +34,8 @@ public class Orc extends Creature
                final Date birthday)
             throws IllegalArgumentException
     {
-        super(name, birthday);
+        super(name, birthday, ORC_MAX_HP);
         this.rage = ORC_MIN_RAGE;
-        this.setHealthPoints(ORC_MAX_HP);
     }
 
     /**

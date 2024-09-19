@@ -23,10 +23,9 @@ public class Dragon extends Creature
                   final Date    dragonBirthDate)
             throws IllegalArgumentException
     {
-        super(dragonName, dragonBirthDate);
+        super(dragonName, dragonBirthDate, DRAGON_MAX_HP);
 
         this.firePower = MAX_FIRE_POWER;
-        this.setHealthPoints(DRAGON_MAX_HP);
     }
 
     /**

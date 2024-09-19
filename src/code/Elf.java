@@ -31,10 +31,9 @@ public class Elf extends Creature
                final Date   elfBirthDate)
             throws IllegalArgumentException
     {
-        super(elfName, elfBirthDate);
+        super(elfName, elfBirthDate, ELF_MAX_HP);
 
         this.mana   = ELF_MAX_MANA;
-        this.setHealthPoints(ELF_MAX_HP);
     }
 
     /**

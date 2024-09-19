@@ -27,13 +27,14 @@ public abstract class Creature
      * @throws IllegalArgumentException If the name is null or empty.
      */
     public Creature(final String name,
-                    final Date dateOfBirth)
+                    final Date dateOfBirth,
+                    final int healthPoints)
         throws IllegalArgumentException
     {
         validateName(name);
         this.name = name;
         this.dateOfBirth = dateOfBirth;
-        this.healthPoints = CREATURE_MAX_HP;
+        this.healthPoints = validateHealthPoints(healthPoints);
     }
 
     /**
@@ -50,6 +51,24 @@ public abstract class Creature
         }
     }
 
+    /**
+     *
+     * @param healthPoints
+     * @return
+     */
+    private static int validateHealthPoints(final int healthPoints)
+    {
+        if (healthPoints <= CREATURE_MIN_HP) {
+            throw new IllegalArgumentException("Health points must be greater than 0.");
+        }
+        return healthPoints;
+    }
+
+    /**
+     * Abstract method representing a Creature's attack. To be implemented according to a subclass requirements.
+     * @param targetCreature creature targeted by attack
+     * @throws Exception subclass implements custom Exception depending on resource
+     */
     abstract void attack(Creature targetCreature) throws Exception;
 
     /**
